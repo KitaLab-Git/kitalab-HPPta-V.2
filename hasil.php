@@ -17,6 +17,7 @@ foreach ($requiredSteps as $key) {
 $result = hpp_classify($answers);
 $productName = $answers['product_name'];
 $detailLabel = ($answers['detail_preference'] ?? '') === 'complete' ? 'Lengkap dan terperinci' : 'Cepat dan sederhana';
+$modeKey = hpp_mode_key($result['mode']);
 ?>
 <!doctype html>
 <html lang="id">
@@ -60,15 +61,14 @@ $detailLabel = ($answers['detail_preference'] ?? '') === 'complete' ? 'Lengkap d
 
             <div class="development-note">
                 <span>i</span>
-                <div><strong>Kalkulator sedang disiapkan</strong><p>Fase ini sementara berhenti pada hasil klasifikasi agar logikanya dapat diuji. Kalkulator pada fase berikutnya tetap menggunakan satu sistem yang sama.</p></div>
+                <div><strong>Rekomendasi ini tidak mengunci pilihanmu</strong><p>Kamu dapat mengganti mode kapan saja di dalam kalkulator tanpa kehilangan data produk.</p></div>
             </div>
 
             <div class="result-actions">
-                <a class="button button-primary button-large" href="klasifikasi.php?restart=1">Ulangi klasifikasi</a>
-                <a class="button button-secondary button-large" href="index.php">Kembali ke beranda</a>
+                <a class="button button-primary button-large" href="kalkulator.php?mode=<?= hpp_e($modeKey) ?>&amp;product=<?= rawurlencode($productName) ?>">Buka kalkulator</a>
+                <a class="button button-secondary button-large" href="klasifikasi.php?restart=1">Ulangi klasifikasi</a>
             </div>
         </div>
     </main>
 </body>
 </html>
-

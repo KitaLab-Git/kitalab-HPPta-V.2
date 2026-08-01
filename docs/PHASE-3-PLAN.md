@@ -1,5 +1,7 @@
 # Rencana Pengembangan Fase 3
 
+**Status:** Implementasi awal selesai, siap diuji pengguna dan direvisi.
+
 ## Tujuan
 
 Fase 3 membangun kalkulator HPP adaptif berdasarkan hasil klasifikasi pengguna. HPPta tetap menggunakan satu mesin perhitungan dan satu struktur data. Perbedaan mode hanya memengaruhi alur, bahasa, panduan, tingkat detail, serta fitur yang ditampilkan.
@@ -87,3 +89,21 @@ Mesin inti
 - Fase 1 dan fase 2 pada branch `main` menjadi baseline stabil.
 - Detail kalkulator harus disepakati sebelum implementasi setiap mode.
 - Mode tidak boleh memiliki mesin hitung atau format data yang terpisah.
+
+## Implementasi awal
+
+- Satu mesin perhitungan tersedia di `assets/js/hpp-engine.js`.
+- Seluruh mode menggunakan state yang sama dan tersimpan di `localStorage`.
+- Biaya yang tidak tersedia pada mode aktif tidak ikut dihitung, tetapi datanya tetap disimpan.
+- Mode dapat diganti melalui panel Pengaturan.
+- Halaman hasil klasifikasi mengarahkan pengguna langsung ke mode rekomendasi.
+- Pengujian mesin tersimpan di `tests/hpp-engine.test.js`.
+
+## Asumsi yang perlu divalidasi melalui pengujian pengguna
+
+1. Tenaga kerja, kemasan, utilitas, overhead, dan penyusutan dimasukkan per batch.
+2. Waste merupakan persentase dari total biaya bahan.
+3. Margin merupakan persentase terhadap harga jual, bukan markup terhadap HPP.
+4. Modal bulanan menggunakan target produk dibagi hasil per batch.
+5. Konversi takaran rumah tangga ditentukan pengguna; angka panduan hanya contoh.
+6. Template Generator tidak dianggap sebagai resep atau harga pasar yang direkomendasikan.

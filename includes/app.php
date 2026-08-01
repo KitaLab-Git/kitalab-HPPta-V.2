@@ -123,6 +123,17 @@ function hpp_classify(array $answers): array
     ];
 }
 
+function hpp_mode_key(string $mode): string
+{
+    return match ($mode) {
+        'Kalkulator HPP Profesional' => 'professional',
+        'Kalkulator Estimasi' => 'estimate',
+        'Kalkulator Simulasi Usaha' => 'simulation',
+        'Generator Simulasi HPP' => 'idea',
+        default => 'easy',
+    };
+}
+
 function hpp_e(string $value): string
 {
     return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
@@ -132,4 +143,3 @@ function hpp_url(string $path): string
 {
     return $path;
 }
-
