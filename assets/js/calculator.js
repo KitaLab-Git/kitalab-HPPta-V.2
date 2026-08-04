@@ -28,10 +28,6 @@
   const digits = (value) => Number(String(value || "").replace(/\D/g, "")) || 0;
   const rupiah = (value) => `Rp ${Math.round(Number(value) || 0).toLocaleString("id-ID")}`;
   const rupiahInput = (value) => value ? Number(value).toLocaleString("id-ID") : "";
-  const syncIngredientUnit = (ingredient) => {
-    ingredient.usedUnit = HppEngine.baseUnitForPurchase(ingredient.purchaseUnit);
-    return ingredient;
-  };
   const deepMerge = (base, saved) => ({ ...base, ...saved, product: { ...base.product, ...(saved.product || {}) }, costs: { ...base.costs, ...(saved.costs || {}) }, pricing: { ...base.pricing, ...(saved.pricing || {}) }, ingredients: Array.isArray(saved.ingredients) ? saved.ingredients : base.ingredients });
 
   const initialMode = document.body.dataset.initialMode || "easy";
@@ -43,7 +39,6 @@
   } catch (_) {}
   if (new URLSearchParams(location.search).has("mode")) state.mode = initialMode;
   if (initialProduct && !state.product.name) state.product.name = initialProduct;
-  state.ingredients = state.ingredients.map(syncIngredientUnit);
 
   const refs = {
     productName: byId("product-name"), batchYield: byId("batch-yield"), yieldUnit: byId("yield-unit"), monthlyTarget: byId("monthly-target"),
@@ -107,22 +102,9 @@
         input.addEventListener("input", () => {
           ingredient[key] = key === "purchasePrice" ? digits(input.value) : (input.type === "number" ? Number(input.value) || 0 : input.value);
           if (key === "purchasePrice") input.value = rupiahInput(ingredient[key]);
-          if (key === "purchaseUnit") {
-            syncIngredientUnit(ingredient);
-            const usageUnit = row.querySelector('[data-field="usedUnit"]');
-            if (usageUnit) usageUnit.value = ingredient.usedUnit;
-          }
           save(); calculate();
         });
-        input.addEventListener("change", () => {
-          ingredient[key] = input.value;
-          if (key === "purchaseUnit") {
-            syncIngredientUnit(ingredient);
-            const usageUnit = row.querySelector('[data-field="usedUnit"]');
-            if (usageUnit) usageUnit.value = ingredient.usedUnit;
-          }
-          save(); calculate();
-        });
+        input.addEventListener("change", () => { ingredient[key] = input.value; save(); calculate(); });
       });
       row.querySelector(".remove-ingredient").addEventListener("click", () => { state.ingredients = state.ingredients.filter((item) => item.id !== ingredient.id); save(); renderIngredients(); calculate(); });
       refs.ingredientList.appendChild(fragment);
@@ -135,6 +117,7 @@
       const row = refs.ingredientList.children[index];
       if (!row) return;
       row.querySelector("[data-cost]").textContent = rupiah(item.cost);
+      row.querySelector("[data-warning]").hidden = item.compatible;
     });
     byId("total-ingredients").textContent = rupiah(result.ingredients);
     byId("total-waste").textContent = rupiah(result.waste);

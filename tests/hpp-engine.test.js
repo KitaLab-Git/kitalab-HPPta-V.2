@@ -48,19 +48,5 @@ assert.equal(estimate.perUnit, 60);
 assert.equal(HppEngine.convert(1, "kg", "g"), 1000);
 assert.equal(HppEngine.convert(1, "l", "ml"), 1000);
 assert.equal(HppEngine.convert(1, "kg", "ml"), null);
-assert.equal(HppEngine.baseUnitForPurchase("kg"), "g");
-assert.equal(HppEngine.baseUnitForPurchase("g"), "g");
-assert.equal(HppEngine.baseUnitForPurchase("l"), "ml");
-assert.equal(HppEngine.baseUnitForPurchase("ml"), "ml");
-assert.equal(HppEngine.baseUnitForPurchase("pcs"), "pcs");
-
-const mismatchedSavedUnit = HppEngine.ingredientCost({
-  purchasePrice: 20000,
-  purchaseQty: 1,
-  purchaseUnit: "kg",
-  usedQty: 250,
-  usedUnit: "ml",
-}, "easy");
-assert.equal(mismatchedSavedUnit.cost, 5000, "Mesin menormalkan pemakaian kg menjadi gram");
 
 console.log("Semua pengujian mesin HPP lulus.");

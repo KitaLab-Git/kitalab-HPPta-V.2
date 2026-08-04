@@ -18,8 +18,6 @@ HPPta V2 adalah kalkulator Harga Pokok Produksi adaptif dari KitaLab. Aplikasi m
 - Penyimpanan sementara menggunakan browser perangkat.
 - Tanpa login, register, dan database pada tahap pengembangan ini.
 
-> Catatan 4 Agustus 2026: antarmuka kalkulator fase 3 disembunyikan sementara untuk memulai ulang perancangannya dari nol. Mesin, aset, pengujian, dan riwayat implementasi tetap tersedia sebagai referensi. Halaman `kalkulator.php` saat ini hanya menampilkan scaffold “Ini Kalkulator HPP”.
-
 ## Menjalankan secara lokal
 
 Gunakan PHP 8.1 atau lebih baru:
@@ -72,12 +70,3 @@ Preferensi `Cepat` atau `Lengkap` direkam sebagai preferensi tampilan awal, buka
 - Mode Simulasi menghitung target produksi dan modal bulanan dari biaya per batch.
 - Mode Estimasi dan Generator menampilkan penanda bahwa hasil menggunakan asumsi.
 - Template Generator adalah contoh yang harus diganti dengan resep serta harga pengguna.
-
-## Perilaku satuan bahan
-
-- Kolom pembelian dipisahkan menjadi harga, isi pembelian, dan satuan.
-- Unit pemakaian disesuaikan otomatis berdasarkan unit pembelian.
-- Pembelian `kg` atau `gram` menggunakan pemakaian dalam `gram`.
-- Pembelian `liter` atau `ml` menggunakan pemakaian dalam `ml`.
-- Pembelian `buah` menggunakan pemakaian dalam `buah`.
-- Konversi satuan sejenis dilakukan otomatis oleh mesin perhitungan.

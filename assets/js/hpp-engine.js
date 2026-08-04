@@ -21,28 +21,22 @@
     return number(quantity) * from.factor / to.factor;
   };
 
-  const baseUnitForPurchase = (purchaseUnit) => {
-    const family = units[purchaseUnit]?.family;
-    if (family === "volume") return "ml";
-    if (family === "count") return "pcs";
-    return "g";
-  };
-
   const ingredientCost = (ingredient, mode) => {
     const purchasePrice = number(ingredient.purchasePrice);
     const purchaseQty = number(ingredient.purchaseQty);
     if (!purchasePrice || !purchaseQty) return { cost: 0, compatible: true, usedInPurchaseUnit: 0 };
 
     let usedQty = number(ingredient.usedQty);
-    let usedUnit = baseUnitForPurchase(ingredient.purchaseUnit);
+    let usedUnit = ingredient.usedUnit || "g";
 
     if (mode === "estimate" || mode === "idea") {
       usedQty = number(ingredient.householdQty) * number(ingredient.gramsPerHousehold);
-      usedUnit = baseUnitForPurchase(ingredient.purchaseUnit);
+      const purchaseFamily = units[ingredient.purchaseUnit]?.family;
+      usedUnit = purchaseFamily === "volume" ? "ml" : purchaseFamily === "count" ? "pcs" : "g";
     }
 
     const converted = convert(usedQty, usedUnit, ingredient.purchaseUnit || "g");
-    if (converted === null) return { cost: 0, compatible: true, usedInPurchaseUnit: 0 };
+    if (converted === null) return { cost: 0, compatible: false, usedInPurchaseUnit: 0 };
     return { cost: purchasePrice * converted / purchaseQty, compatible: true, usedInPurchaseUnit: converted };
   };
 
@@ -79,5 +73,5 @@
     };
   };
 
-  root.HppEngine = { calculate, convert, ingredientCost, baseUnitForPurchase };
+  root.HppEngine = { calculate, convert, ingredientCost };
 })(typeof window !== "undefined" ? window : globalThis);
