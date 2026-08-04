@@ -49,4 +49,20 @@ assert.equal(HppEngine.convert(1, "kg", "g"), 1000);
 assert.equal(HppEngine.convert(1, "l", "ml"), 1000);
 assert.equal(HppEngine.convert(1, "kg", "ml"), null);
 
+assert.equal(HppEngine.ingredientCost({
+  purchasePrice: 35000,
+  purchaseQty: 350,
+  purchaseUnit: "ml",
+  usedQty: 80,
+  usedUnit: "ml",
+}, "easy").cost, 8000);
+
+assert.ok(Math.abs(HppEngine.ingredientCost({
+  purchasePrice: 17000,
+  purchaseQty: 550,
+  purchaseUnit: "g",
+  usedQty: 15,
+  usedUnit: "g",
+}, "easy").cost - 463.6363636363636) < 0.0001);
+
 console.log("Semua pengujian mesin HPP lulus.");

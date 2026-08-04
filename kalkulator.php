@@ -16,7 +16,7 @@ $requestedMode = 'easy';
     <title>Kalkulator HPP - HPPta</title>
     <link rel="icon" href="assets/images/kitalab-mark.png" type="image/png">
     <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/calculator.css?v=20260804-1">
+    <link rel="stylesheet" href="assets/css/calculator.css?v=20260804-2">
 </head>
 <body class="calculator-page" data-initial-mode="<?= hpp_e($requestedMode) ?>">
     <a class="skip-link" href="#calculator-main">Lewati ke kalkulator</a>
@@ -86,6 +86,6 @@ $requestedMode = 'easy';
     </template>
 
     <script src="assets/js/hpp-engine.js?v=20260804-1"></script>
-    <script src="assets/js/calculator.js?v=20260804-1"></script>
+    <script src="assets/js/calculator.js?v=20260804-2"></script>
 </body>
 </html>

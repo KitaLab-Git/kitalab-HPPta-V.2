@@ -76,7 +76,14 @@
           calculate();
         });
         input.addEventListener("change", () => {
-          ingredient[key] = input.value;
+          if (key === "purchasePrice") {
+            ingredient[key] = digits(input.value);
+            input.value = rupiahInput(ingredient[key]);
+          } else if (input.type === "number") {
+            ingredient[key] = Number(input.value) || 0;
+          } else {
+            ingredient[key] = input.value;
+          }
           save();
           calculate();
         });

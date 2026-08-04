@@ -32,13 +32,13 @@
 .input-suffix > span, .currency-input > span { padding: 0 .7rem; color: var(--muted); font-size: .72rem; font-weight: 750; white-space: nowrap; }
 .input-suffix:focus-within, .currency-input:focus-within { border-color: var(--primary); outline: 3px solid rgb(37 103 217 / 10%); }
 .input-suffix input:focus, .currency-input input:focus { outline: 0; }
-.ingredient-table-head, .ingredient-row { display: grid; grid-template-columns: 1.1fr 2fr 1.35fr 100px 32px; gap: .65rem; align-items: center; }
+.ingredient-table-head, .ingredient-row { display: grid; grid-template-columns: 1.1fr 2.45fr 1.45fr 100px 32px; gap: .65rem; align-items: center; }
 .ingredient-table-head { padding: 0 .75rem .5rem; color: var(--muted); font-size: .65rem; font-weight: 800; text-transform: uppercase; }
 .ingredient-row { position: relative; margin-top: .55rem; border: 1px solid var(--line); border-radius: 15px; padding: .75rem; background: #fbfdff; }
-.purchase-fields { display: grid; grid-template-columns: 1.05fr 1fr; gap: .45rem; }
+.purchase-fields { display: grid; grid-template-columns: minmax(135px, .9fr) minmax(190px, 1.1fr); gap: .45rem; min-width: 0; }
 .quantity-unit { grid-template-columns: 1fr; }
 .quantity-unit > span { grid-column: 1 / -1; }
-.quantity-unit { display: grid; grid-template-columns: 1fr 82px; gap: .35rem; }
+.quantity-unit { display: grid; grid-template-columns: minmax(72px, 1fr) minmax(92px, auto); gap: .35rem; }
 .usage-fields { min-width: 0; }
 .estimate-usage { display: none; grid-template-columns: 1.15fr .85fr; gap: .45rem; }
 body[data-mode="estimate"] .standard-usage, body[data-mode="idea"] .standard-usage { display: none; }
@@ -95,7 +95,7 @@ body[data-mode="estimate"] .ingredient-row, body[data-mode="idea"] .ingredient-r
 .settings-open { overflow: hidden; }
 [hidden] { display: none !important; }
 
-@media (max-width: 1050px) {
+@media (max-width: 1200px) {
   .calculator-layout { grid-template-columns: 1fr; }
   .summary-column { position: static; }
   .summary-card { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem 2rem; }
