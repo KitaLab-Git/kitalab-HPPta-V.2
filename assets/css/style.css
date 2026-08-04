@@ -185,6 +185,10 @@ em { color: var(--primary); font-family: Georgia, "Times New Roman", serif; font
 .development-note strong { font-size: .85rem; }
 .development-note p { margin: .15rem 0 0; color: #785b20; font-size: .76rem; }
 .result-actions { display: flex; justify-content: center; flex-wrap: wrap; gap: .8rem; margin-top: 1.8rem; }
+.calculator-reset-main { min-height: calc(100vh - 79px); display: grid; place-items: center; padding: 2rem; }
+.calculator-reset-card { width: min(680px, 100%); text-align: center; }
+.calculator-reset-card .eyebrow { margin-inline: auto; }
+.calculator-reset-card h1 { margin: 1rem 0 0; font-size: clamp(2.7rem, 8vw, 5rem); line-height: 1; letter-spacing: -.055em; }
 
 @media (max-width: 900px) {
   .desktop-nav { display: none; }

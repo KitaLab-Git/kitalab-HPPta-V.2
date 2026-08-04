@@ -1,6 +1,6 @@
 # Rencana Pengembangan Fase 3
 
-**Status:** Implementasi awal selesai, siap diuji pengguna dan direvisi.
+**Status:** Implementasi awal diarsipkan sebagai referensi. Perancangan antarmuka kalkulator dimulai ulang dari nol.
 
 ## Tujuan
 
@@ -115,3 +115,10 @@ Mesin inti
 - Data lama dengan pasangan unit berbeda dinormalisasi saat dibuka.
 - Peringatan unit tidak sejenis dihapus karena kondisi tersebut dicegah oleh sistem.
 - Kontras teks pada card biru landing page diperbaiki.
+
+## Reset antarmuka kalkulator - 4 Agustus 2026
+
+- Halaman kalkulator dikembalikan menjadi scaffold dengan teks “Ini Kalkulator HPP”.
+- Mesin hitung, JavaScript, CSS, test, dan riwayat Git tidak dihapus agar fitur lama tetap dapat dijadikan referensi.
+- Seluruh logo aktif HPPta beralih dari PNG ke SVG resmi KitaLab.
+- Perancangan kalkulator selanjutnya dimulai ulang dari fondasi produk yang baru.

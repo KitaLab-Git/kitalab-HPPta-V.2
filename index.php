@@ -16,7 +16,7 @@ if (isset($_GET['reset'])) {
     <meta name="description" content="HPPta membantu UMKM memahami Harga Pokok Produksi melalui cara menghitung yang disesuaikan dengan tingkat pemahaman pengguna.">
     <meta name="theme-color" content="#2567d9">
     <title>HPPta - Hitung HPP dengan Cara yang Lebih Mudah</title>
-    <link rel="icon" href="assets/images/kitalab-mark.png" type="image/png">
+    <link rel="icon" href="assets/images/kitalab-symbol-primary.svg" type="image/svg+xml">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
@@ -24,7 +24,7 @@ if (isset($_GET['reset'])) {
     <header class="site-header">
         <div class="container header-inner">
             <a class="brand" href="index.php" aria-label="HPPta beranda">
-                <img src="assets/images/kitalab-mark.png" alt="" width="44" height="44">
+                <img src="assets/images/kitalab-symbol-primary.svg" alt="" width="44" height="44">
                 <span><strong>HPPta</strong><small>by KitaLab</small></span>
             </a>
             <nav class="desktop-nav" aria-label="Navigasi utama">
@@ -130,7 +130,7 @@ if (isset($_GET['reset'])) {
 
         <section class="final-cta">
             <div class="container">
-                <img src="assets/images/kitalab-mark.png" alt="" width="52" height="52">
+                <img src="assets/images/kitalab-symbol-primary.svg" alt="" width="52" height="52">
                 <span class="eyebrow">Siap mengenal HPP produkmu?</span>
                 <h2>Mulai dari yang kamu pahami <em>hari ini.</em></h2>
                 <p>Jawab beberapa pertanyaan dan lihat mode HPPta yang direkomendasikan untukmu.</p>
@@ -141,11 +141,10 @@ if (isset($_GET['reset'])) {
 
     <footer class="site-footer">
         <div class="container footer-inner">
-            <div class="brand footer-brand"><img src="assets/images/kitalab-mark.png" alt="" width="40" height="40"><span><strong>HPPta</strong><small>by KitaLab</small></span></div>
+            <div class="brand footer-brand"><img src="assets/images/kitalab-symbol-primary.svg" alt="" width="40" height="40"><span><strong>HPPta</strong><small>by KitaLab</small></span></div>
             <p>Produk perhitungan Harga Pokok Produksi untuk UMKM Indonesia.</p>
             <a href="https://kitalab.online" target="_blank" rel="noreferrer">Kenal KitaLab ↗</a>
         </div>
     </footer>
 </body>
 </html>
-

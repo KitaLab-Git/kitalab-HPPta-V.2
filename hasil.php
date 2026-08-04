@@ -26,14 +26,14 @@ $modeKey = hpp_mode_key($result['mode']);
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#2567d9">
     <title>Hasil Klasifikasi - HPPta</title>
-    <link rel="icon" href="assets/images/kitalab-mark.png" type="image/png">
+    <link rel="icon" href="assets/images/kitalab-symbol-primary.svg" type="image/svg+xml">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body class="result-page">
     <header class="flow-header">
         <div class="container flow-header-inner">
             <a class="brand" href="index.php" aria-label="Kembali ke beranda HPPta">
-                <img src="assets/images/kitalab-mark.png" alt="" width="42" height="42">
+                <img src="assets/images/kitalab-symbol-primary.svg" alt="" width="42" height="42">
                 <span><strong>HPPta</strong><small>by KitaLab</small></span>
             </a>
             <span class="secure-note"><i></i> Hasil klasifikasi</span>

@@ -18,6 +18,8 @@ HPPta V2 adalah kalkulator Harga Pokok Produksi adaptif dari KitaLab. Aplikasi m
 - Penyimpanan sementara menggunakan browser perangkat.
 - Tanpa login, register, dan database pada tahap pengembangan ini.
 
+> Catatan 4 Agustus 2026: antarmuka kalkulator fase 3 disembunyikan sementara untuk memulai ulang perancangannya dari nol. Mesin, aset, pengujian, dan riwayat implementasi tetap tersedia sebagai referensi. Halaman `kalkulator.php` saat ini hanya menampilkan scaffold “Ini Kalkulator HPP”.
+
 ## Menjalankan secara lokal
 
 Gunakan PHP 8.1 atau lebih baru:
