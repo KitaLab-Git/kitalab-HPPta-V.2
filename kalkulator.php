@@ -14,7 +14,7 @@ $requestedMode = 'easy';
     <meta name="theme-color" content="#2567d9">
     <meta name="description" content="Kalkulator HPPta membantu menghitung biaya produksi dan HPP per produk.">
     <title>Kalkulator HPP - HPPta</title>
-    <link rel="icon" href="assets/images/kitalab-mark.png" type="image/png">
+    <link rel="icon" href="assets/images/kitalab-icon.svg?v=20260804" type="image/svg+xml">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/calculator.css?v=20260804-3">
 </head>
@@ -23,7 +23,7 @@ $requestedMode = 'easy';
     <header class="calculator-header">
         <div class="container calculator-header-inner">
             <a class="brand" href="index.php" aria-label="HPPta beranda">
-                <img src="assets/images/kitalab-mark.png" alt="" width="42" height="42">
+                <img src="assets/images/kitalab-icon.svg" alt="" width="42" height="42">
                 <span><strong>HPPta</strong><small>by KitaLab</small></span>
             </a>
             <div class="save-status" id="save-status"><i></i><span>Tersimpan di browser</span></div>
