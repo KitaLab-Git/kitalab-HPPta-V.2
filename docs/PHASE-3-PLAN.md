@@ -107,3 +107,11 @@ Mesin inti
 4. Modal bulanan menggunakan target produk dibagi hasil per batch.
 5. Konversi takaran rumah tangga ditentukan pengguna; angka panduan hanya contoh.
 6. Template Generator tidak dianggap sebagai resep atau harga pasar yang direkomendasikan.
+
+## Revisi input bahan - 4 Agustus 2026
+
+- Layout harga, isi pembelian, dan satuan dipisahkan agar seluruh input dapat digunakan dengan nyaman.
+- Unit pemakaian otomatis mengikuti keluarga unit pembelian.
+- Data lama dengan pasangan unit berbeda dinormalisasi saat dibuka.
+- Peringatan unit tidak sejenis dihapus karena kondisi tersebut dicegah oleh sistem.
+- Kontras teks pada card biru landing page diperbaiki.

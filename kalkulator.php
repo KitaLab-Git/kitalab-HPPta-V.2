@@ -151,11 +151,12 @@ $product = trim((string) ($_GET['product'] ?? ($_SESSION['hpp_answers']['product
         <article class="ingredient-row">
             <label class="calc-field ingredient-name"><span class="mobile-label">Nama bahan</span><input data-field="name" type="text" maxlength="60" placeholder="Nama bahan"></label>
             <div class="purchase-fields">
-                <label class="calc-field"><span class="mobile-label">Harga beli</span><div class="currency-input compact"><span>Rp</span><input data-field="purchasePrice" type="text" inputmode="numeric" placeholder="0"></div></label>
-                <label class="calc-field quantity-unit"><span class="mobile-label">Isi pembelian</span><input data-field="purchaseQty" type="number" min="0" step="any" placeholder="0"><select data-field="purchaseUnit" aria-label="Satuan pembelian"><option value="g">gram</option><option value="kg">kg</option><option value="ml">ml</option><option value="l">liter</option><option value="pcs">buah</option></select></label>
+                <label class="calc-field purchase-price"><span class="mobile-label">Harga beli</span><div class="currency-input compact"><span>Rp</span><input data-field="purchasePrice" type="text" inputmode="numeric" placeholder="0"></div></label>
+                <label class="calc-field purchase-quantity"><span class="mobile-label">Isi pembelian</span><input data-field="purchaseQty" type="number" min="0" step="any" placeholder="0"></label>
+                <label class="calc-field purchase-unit"><span class="mobile-label">Satuan</span><select data-field="purchaseUnit" aria-label="Satuan pembelian"><option value="g">gram</option><option value="kg">kg</option><option value="ml">ml</option><option value="l">liter</option><option value="pcs">buah</option></select></label>
             </div>
             <div class="usage-fields standard-usage">
-                <label class="calc-field quantity-unit"><span class="mobile-label">Dipakai</span><input data-field="usedQty" type="number" min="0" step="any" placeholder="0"><select data-field="usedUnit" aria-label="Satuan pemakaian"><option value="g">gram</option><option value="kg">kg</option><option value="ml">ml</option><option value="l">liter</option><option value="pcs">buah</option></select></label>
+                <label class="calc-field quantity-unit"><span class="mobile-label">Dipakai</span><input data-field="usedQty" type="number" min="0" step="any" placeholder="0"><select data-field="usedUnit" aria-label="Satuan pemakaian otomatis" disabled><option value="g">gram</option><option value="ml">ml</option><option value="pcs">buah</option></select></label>
             </div>
             <div class="usage-fields estimate-usage">
                 <label class="calc-field quantity-unit"><span class="mobile-label">Takaran dipakai</span><input data-field="householdQty" type="number" min="0" step="any" placeholder="0"><select data-field="householdUnit" aria-label="Takaran sehari-hari"><option value="tbsp">sdm</option><option value="tsp">sdt</option><option value="cup">gelas</option><option value="piece">butir</option></select></label>
@@ -163,7 +164,6 @@ $product = trim((string) ($_GET['product'] ?? ($_SESSION['hpp_answers']['product
             </div>
             <strong class="ingredient-cost" data-cost>Rp 0</strong>
             <button class="remove-ingredient" type="button" aria-label="Hapus bahan">×</button>
-            <p class="unit-warning" data-warning hidden>Satuan pembelian dan pemakaian tidak sejenis.</p>
         </article>
     </template>
 
