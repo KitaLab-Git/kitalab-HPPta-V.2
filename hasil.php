@@ -17,7 +17,6 @@ foreach ($requiredSteps as $key) {
 $result = hpp_classify($answers);
 $productName = $answers['product_name'];
 $detailLabel = ($answers['detail_preference'] ?? '') === 'complete' ? 'Lengkap dan terperinci' : 'Cepat dan sederhana';
-$modeKey = hpp_mode_key($result['mode']);
 ?>
 <!doctype html>
 <html lang="id">
@@ -50,22 +49,22 @@ $modeKey = hpp_mode_key($result['mode']);
 
             <div class="recommendation-card">
                 <div class="recommendation-icon">H</div>
-                <div><small>Mode awal yang direkomendasikan</small><strong><?= hpp_e($result['mode']) ?></strong></div>
-                <span>Direkomendasikan</span>
+                <div><small>Mode kalkulator yang digunakan</small><strong><?= hpp_e($result['mode']) ?></strong></div>
+                <span>Mode tunggal</span>
             </div>
 
             <div class="result-summary">
                 <div><small>Preferensi tampilan</small><strong><?= hpp_e($detailLabel) ?></strong></div>
-                <div><small>Status mode</small><strong>Dapat diubah nanti</strong></div>
+                <div><small>Status mode</small><strong>Satu mode untuk semua level</strong></div>
             </div>
 
             <div class="development-note">
                 <span>i</span>
-                <div><strong>Rekomendasi ini tidak mengunci pilihanmu</strong><p>Kamu dapat mengganti mode kapan saja di dalam kalkulator tanpa kehilangan data produk.</p></div>
+                <div><strong>Level tidak mengubah kalkulator</strong><p>Semua pengguna memakai kalkulator yang sama. Hasil klasifikasi hanya menunjukkan tingkat pemahaman awal pengguna.</p></div>
             </div>
 
             <div class="result-actions">
-                <a class="button button-primary button-large" href="kalkulator.php?mode=<?= hpp_e($modeKey) ?>&amp;product=<?= rawurlencode($productName) ?>">Buka kalkulator</a>
+                <a class="button button-primary button-large" href="kalkulator.php">Buka kalkulator</a>
                 <a class="button button-secondary button-large" href="klasifikasi.php?restart=1">Ulangi klasifikasi</a>
             </div>
         </div>

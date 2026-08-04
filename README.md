@@ -1,20 +1,16 @@
 # HPPta V2
 
-HPPta V2 adalah kalkulator Harga Pokok Produksi adaptif dari KitaLab. Aplikasi menggunakan satu mesin perhitungan dengan beberapa mode pengalaman pengguna.
+HPPta V2 adalah kalkulator Harga Pokok Produksi dari KitaLab. Pada tahap ini, semua level pengguna memakai satu mode kalkulator berbasis resep.
 
 ## Cakupan saat ini
 
 - Landing page pengenalan HPPta.
 - CTA utama **Mulai Hitung HPP**.
 - Wizard klasifikasi satu pertanyaan per halaman.
-- Lima rekomendasi mode awal berdasarkan flow produk.
-- Halaman hasil klasifikasi dan rekomendasi mode awal.
-- Kalkulator HPP Mudah.
-- Kalkulator HPP Profesional.
-- Kalkulator Simulasi Usaha.
-- Kalkulator Estimasi.
-- Generator Simulasi HPP.
-- Pergantian mode tanpa kehilangan data.
+- Lima klasifikasi level pengguna berdasarkan flow produk.
+- Halaman hasil klasifikasi pengguna.
+- Satu mode kalkulator HPP berbasis resep.
+- Section Resep untuk menghitung biaya bahan.
 - Penyimpanan sementara menggunakan browser perangkat.
 - Tanpa login, register, dan database pada tahap pengembangan ini.
 
@@ -54,19 +50,10 @@ Pastikan ekstensi PHP `session` aktif. Hostinger mengaktifkannya secara default.
 
 ## Logika klasifikasi
 
-1. Takaran yang belum pasti mendapatkan rekomendasi **Kalkulator Estimasi**.
-2. Produk yang belum dijual dan belum memiliki resep mendapatkan **Generator Simulasi HPP**.
-3. Produk yang belum dijual tetapi sudah memiliki resep mendapatkan **Kalkulator Simulasi Usaha**.
-4. Produk yang sudah dijual dan pernah dihitung mendapatkan **Kalkulator HPP Profesional**.
-5. Produk yang sudah dijual tetapi belum pernah dihitung mendapatkan **Kalkulator HPP Mudah**.
+Klasifikasi tetap menentukan level pemahaman awal pengguna. Level tersebut tidak mengubah kalkulator: seluruh pengguna diarahkan ke satu mode dan menggunakan Section Resep yang sama.
 
-Preferensi `Cepat` atau `Lengkap` direkam sebagai preferensi tampilan awal, bukan sebagai sistem kalkulator yang berbeda.
+## Catatan kalkulator
 
-## Catatan fase 3
-
-- Harga jual menggunakan rumus margin: `HPP / (1 - margin)`.
-- Biaya tenaga kerja dan biaya operasional harus diisi sebagai biaya per batch, bukan biaya bulanan.
-- Waste hanya dihitung pada mode Profesional.
-- Mode Simulasi menghitung target produksi dan modal bulanan dari biaya per batch.
-- Mode Estimasi dan Generator menampilkan penanda bahwa hasil menggunakan asumsi.
-- Template Generator adalah contoh yang harus diganti dengan resep serta harga pengguna.
+- Total HPP resep berasal dari biaya seluruh bahan yang digunakan.
+- Biaya bahan dihitung dari harga dan isi pembelian terhadap jumlah pemakaian.
+- Data sementara disimpan di browser perangkat pengguna.

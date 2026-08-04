@@ -87,51 +87,45 @@ function hpp_classify(array $answers): array
     if ($saleStatus === 'planned' && ($answers['has_recipe'] ?? '') === 'no') {
         return [
             'level' => 'Pengguna Masih Tahap Ide',
-            'mode' => 'Generator Simulasi HPP',
-            'description' => 'Produkmu masih berada di tahap ide dan belum memiliki resep. Mode awal nantinya akan membantu membangun simulasi dari dasar.',
+            'mode' => 'Kalkulator HPPta',
+            'description' => 'Produkmu masih berada di tahap ide dan belum memiliki resep. Mulailah menyusun bahan yang ingin digunakan sebagai dasar perhitungan.',
         ];
     }
 
     if ($measurement === 'unknown') {
         return [
             'level' => 'Pengguna Tanpa Takaran',
-            'mode' => 'Kalkulator Estimasi',
-            'description' => 'Takaran produkmu masih berupa perkiraan. Mode awal nantinya akan membantu menghitung dengan pendekatan estimasi yang mudah dipahami.',
+            'mode' => 'Kalkulator HPPta',
+            'description' => 'Takaran produkmu masih berupa perkiraan. Catat bahan dan takarannya agar perhitungan dapat dibuat semakin tepat.',
         ];
     }
 
     if ($saleStatus === 'planned') {
         return [
             'level' => 'Pengguna Simulasi Usaha',
-            'mode' => 'Kalkulator Simulasi Usaha',
-            'description' => 'Produkmu belum dijual, tetapi resepnya sudah tersedia. Mode awal nantinya akan membantu menguji biaya sebelum usaha dimulai.',
+            'mode' => 'Kalkulator HPPta',
+            'description' => 'Produkmu belum dijual, tetapi resepnya sudah tersedia. Kamu dapat mulai menghitung biaya bahan sebelum usaha dimulai.',
         ];
     }
 
     if (($answers['capital_experience'] ?? '') === 'yes') {
         return [
             'level' => 'Pengguna Berpengalaman',
-            'mode' => 'Kalkulator HPP Profesional',
-            'description' => 'Kamu sudah menjual produk dan pernah menghitung modal. Mode awal nantinya memberikan kontrol dan rincian yang lebih lengkap.',
+            'mode' => 'Kalkulator HPPta',
+            'description' => 'Kamu sudah menjual produk dan pernah menghitung modal. Gunakan data pembelian dan resep aktual untuk menghitung biaya bahan.',
         ];
     }
 
     return [
         'level' => 'Pengguna Baru',
-        'mode' => 'Kalkulator HPP Mudah',
-        'description' => 'Kamu sudah menjual produk, tetapi baru mulai menghitung modal. Mode awal nantinya akan memandu proses secara bertahap.',
+        'mode' => 'Kalkulator HPPta',
+        'description' => 'Kamu sudah menjual produk, tetapi baru mulai menghitung modal. Mulailah dari harga pembelian dan pemakaian setiap bahan.',
     ];
 }
 
 function hpp_mode_key(string $mode): string
 {
-    return match ($mode) {
-        'Kalkulator HPP Profesional' => 'professional',
-        'Kalkulator Estimasi' => 'estimate',
-        'Kalkulator Simulasi Usaha' => 'simulation',
-        'Generator Simulasi HPP' => 'idea',
-        default => 'easy',
-    };
+    return 'easy';
 }
 
 function hpp_e(string $value): string
