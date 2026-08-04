@@ -32,24 +32,19 @@
 .input-suffix > span, .currency-input > span { padding: 0 .7rem; color: var(--muted); font-size: .72rem; font-weight: 750; white-space: nowrap; }
 .input-suffix:focus-within, .currency-input:focus-within { border-color: var(--primary); outline: 3px solid rgb(37 103 217 / 10%); }
 .input-suffix input:focus, .currency-input input:focus { outline: 0; }
-.ingredient-table-head, .ingredient-row { display: grid; grid-template-columns: 1.1fr 2.45fr 1.45fr 100px 32px; gap: .65rem; align-items: center; }
-.ingredient-table-head { padding: 0 .75rem .5rem; color: var(--muted); font-size: .65rem; font-weight: 800; text-transform: uppercase; }
-.ingredient-row { position: relative; margin-top: .55rem; border: 1px solid var(--line); border-radius: 15px; padding: .75rem; background: #fbfdff; }
-.purchase-fields { display: grid; grid-template-columns: minmax(135px, .9fr) minmax(190px, 1.1fr); gap: .45rem; min-width: 0; }
+.ingredient-row { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-areas: "name name price cost" "purchase purchase usage usage" "warning warning warning warning"; gap: .8rem; align-items: end; margin-top: .75rem; border: 1px solid var(--line); border-radius: 15px; padding: 1rem; background: #fbfdff; }
+.ingredient-name { grid-area: name; }
+.ingredient-price { grid-area: price; }
+.ingredient-purchase { grid-area: purchase; }
+.ingredient-usage { grid-area: usage; }
 .quantity-unit { grid-template-columns: 1fr; }
 .quantity-unit > span { grid-column: 1 / -1; }
-.quantity-unit { display: grid; grid-template-columns: minmax(72px, 1fr) minmax(92px, auto); gap: .35rem; }
-.usage-fields { min-width: 0; }
-.estimate-usage { display: none; grid-template-columns: 1.15fr .85fr; gap: .45rem; }
-body[data-mode="estimate"] .standard-usage, body[data-mode="idea"] .standard-usage { display: none; }
-body[data-mode="estimate"] .estimate-usage, body[data-mode="idea"] .estimate-usage { display: grid; }
-body[data-mode="estimate"] .ingredient-table-head, body[data-mode="idea"] .ingredient-table-head,
-body[data-mode="estimate"] .ingredient-row, body[data-mode="idea"] .ingredient-row { grid-template-columns: 1fr 1.65fr 2fr 90px 32px; }
-.ingredient-cost { text-align: right; font-size: .78rem; }
-.remove-ingredient { width: 30px; height: 30px; border: 0; border-radius: 9px; background: #f3f6fa; color: #7b89a0; font-size: 1.15rem; }
+.quantity-unit { display: grid; grid-template-columns: minmax(100px, 1fr) minmax(110px, 145px); gap: .5rem; }
+.ingredient-cost { grid-area: cost; align-self: center; text-align: right; font-size: .78rem; }
+.remove-ingredient { position: absolute; right: .6rem; top: .6rem; width: 30px; height: 30px; border: 0; border-radius: 9px; background: #f3f6fa; color: #7b89a0; font-size: 1.15rem; }
 .remove-ingredient:hover { background: #ffe7e7; color: #a83030; }
-.unit-warning { grid-column: 2 / -1; margin: 0; color: #a43d32; font-size: .68rem; }
-.mobile-label { display: none; }
+.unit-warning { grid-area: warning; margin: 0; color: #a43d32; font-size: .68rem; }
+.mobile-label { display: block; }
 .empty-ingredients { padding: 2rem; border: 1px dashed var(--line); border-radius: 14px; text-align: center; }
 .empty-ingredients p { margin: .2rem 0 0; color: var(--muted); font-size: .78rem; }
 .estimate-guide { display: flex; flex-wrap: wrap; gap: .55rem; }
@@ -103,13 +98,9 @@ body[data-mode="estimate"] .ingredient-row, body[data-mode="idea"] .ingredient-r
 }
 
 @media (max-width: 800px) {
-  .ingredient-table-head { display: none; }
-  .ingredient-row, body[data-mode="estimate"] .ingredient-row, body[data-mode="idea"] .ingredient-row { grid-template-columns: 1fr; gap: .7rem; padding: 1rem; }
-  .purchase-fields, .estimate-usage { grid-template-columns: 1fr 1fr; }
-  .mobile-label { display: block; }
+  .ingredient-row { grid-template-columns: 1fr; grid-template-areas: "name" "price" "purchase" "usage" "cost" "warning"; gap: .7rem; padding: 1rem; }
   .ingredient-cost { text-align: left; color: var(--primary); }
   .remove-ingredient { position: absolute; right: .6rem; top: .6rem; }
-  .unit-warning { grid-column: auto; }
 }
 
 @media (max-width: 640px) {
@@ -123,7 +114,7 @@ body[data-mode="estimate"] .ingredient-row, body[data-mode="idea"] .ingredient-r
   .ingredient-heading { display: grid; }
   .ingredient-heading .button { width: 100%; }
   .form-grid, .cost-grid, .pricing-grid, .template-grid { grid-template-columns: 1fr; }
-  .purchase-fields, .estimate-usage { grid-template-columns: 1fr; }
+  .quantity-unit { grid-template-columns: minmax(0, 1fr) minmax(92px, 120px); }
   .scenario-grid { grid-template-columns: 1fr; }
   .summary-card { display: block; }
   .summary-breakdown { margin-top: 1rem; }

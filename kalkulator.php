@@ -16,7 +16,7 @@ $requestedMode = 'easy';
     <title>Kalkulator HPP - HPPta</title>
     <link rel="icon" href="assets/images/kitalab-mark.png" type="image/png">
     <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/calculator.css?v=20260804-2">
+    <link rel="stylesheet" href="assets/css/calculator.css?v=20260804-3">
 </head>
 <body class="calculator-page" data-initial-mode="<?= hpp_e($requestedMode) ?>">
     <a class="skip-link" href="#calculator-main">Lewati ke kalkulator</a>
@@ -47,7 +47,6 @@ $requestedMode = 'easy';
                         <div><span class="step-label">Resep</span><h2>Bahan baku</h2><p>Tuliskan harga beli dan jumlah yang dipakai dalam resep.</p></div>
                         <button class="button button-secondary" id="add-ingredient" type="button">+ Tambah bahan</button>
                     </div>
-                    <div class="ingredient-table-head" aria-hidden="true"><span>Bahan</span><span>Pembelian</span><span>Pemakaian</span><span>Biaya</span><span></span></div>
                     <div id="ingredient-list" class="ingredient-list"></div>
                     <div class="empty-ingredients" id="empty-ingredients" hidden><strong>Belum ada bahan</strong><p>Tambahkan bahan pertama untuk mulai menghitung.</p></div>
                 </section>
@@ -72,13 +71,9 @@ $requestedMode = 'easy';
     <template id="ingredient-template">
         <article class="ingredient-row">
             <label class="calc-field ingredient-name"><span class="mobile-label">Nama bahan</span><input data-field="name" type="text" maxlength="60" placeholder="Nama bahan"></label>
-            <div class="purchase-fields">
-                <label class="calc-field"><span class="mobile-label">Harga beli</span><div class="currency-input compact"><span>Rp</span><input data-field="purchasePrice" type="text" inputmode="numeric" placeholder="0"></div></label>
-                <label class="calc-field quantity-unit"><span class="mobile-label">Isi pembelian</span><input data-field="purchaseQty" type="number" min="0" step="any" placeholder="0"><select data-field="purchaseUnit" aria-label="Satuan pembelian"><option value="g">gram</option><option value="kg">kg</option><option value="ml">ml</option><option value="l">liter</option><option value="pcs">buah</option></select></label>
-            </div>
-            <div class="usage-fields standard-usage">
-                <label class="calc-field quantity-unit"><span class="mobile-label">Dipakai</span><input data-field="usedQty" type="number" min="0" step="any" placeholder="0"><select data-field="usedUnit" aria-label="Satuan pemakaian"><option value="g">gram</option><option value="kg">kg</option><option value="ml">ml</option><option value="l">liter</option><option value="pcs">buah</option></select></label>
-            </div>
+            <label class="calc-field ingredient-price"><span class="mobile-label">Harga beli</span><div class="currency-input compact"><span>Rp</span><input data-field="purchasePrice" type="text" inputmode="numeric" placeholder="0"></div></label>
+            <label class="calc-field quantity-unit ingredient-purchase"><span class="mobile-label">Isi pembelian</span><input data-field="purchaseQty" type="number" min="0" step="any" placeholder="0"><select data-field="purchaseUnit" aria-label="Satuan pembelian"><option value="g">gram</option><option value="kg">kg</option><option value="ml">ml</option><option value="l">liter</option><option value="pcs">buah</option></select></label>
+            <label class="calc-field quantity-unit ingredient-usage"><span class="mobile-label">Dipakai</span><input data-field="usedQty" type="number" min="0" step="any" placeholder="0"><select data-field="usedUnit" aria-label="Satuan pemakaian"><option value="g">gram</option><option value="kg">kg</option><option value="ml">ml</option><option value="l">liter</option><option value="pcs">buah</option></select></label>
             <strong class="ingredient-cost" data-cost>Rp 0</strong>
             <button class="remove-ingredient" type="button" aria-label="Hapus bahan">×</button>
             <p class="unit-warning" data-warning hidden>Satuan pembelian dan pemakaian tidak sejenis.</p>
