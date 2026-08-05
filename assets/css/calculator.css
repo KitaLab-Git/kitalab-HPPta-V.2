@@ -49,6 +49,29 @@
 .mobile-label { display: block; }
 .empty-ingredients { padding: 2rem; border: 1px dashed var(--line); border-radius: 14px; text-align: center; }
 .empty-ingredients p { margin: .2rem 0 0; color: var(--muted); font-size: .78rem; }
+.packaging-row { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-areas: "package-name package-name package-price package-cost" "package-purchase package-purchase package-usage package-usage"; gap: .8rem; align-items: end; margin-top: .75rem; border: 1px solid var(--line); border-radius: 15px; padding: 1rem; background: #fbfdff; }
+.packaging-name { grid-area: package-name; }
+.packaging-price { grid-area: package-price; }
+.packaging-purchase { grid-area: package-purchase; }
+.packaging-usage { grid-area: package-usage; }
+.packaging-cost { grid-area: package-cost; align-self: center; padding-right: 2.3rem; text-align: right; font-size: .78rem; }
+.remove-packaging { position: absolute; right: .6rem; top: .6rem; width: 30px; height: 30px; border: 0; border-radius: 9px; background: #f3f6fa; color: #7b89a0; font-size: 1.15rem; }
+.remove-packaging:hover { background: #ffe7e7; color: #a83030; }
+.additional-packaging { margin-top: 1rem; max-width: 460px; }
+.calc-field > small { color: var(--muted); font-size: .65rem; }
+.operation-stack { display: grid; gap: .9rem; }
+.operation-block { border: 1px solid var(--line); border-radius: 16px; padding: 1rem; background: #fbfdff; }
+.operation-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: .9rem; }
+.operation-heading h3 { margin: 0; font-size: 1rem; }
+.operation-heading p { margin: .2rem 0 0; color: var(--muted); font-size: .7rem; }
+.operation-heading > strong { flex: 0 0 auto; color: var(--primary); font-size: .82rem; }
+.operation-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: .75rem; }
+.method-field { max-width: 420px; }
+.value-unit { display: grid; grid-template-columns: minmax(0, 1fr) 100px; overflow: hidden; border: 1px solid var(--line); border-radius: 11px; background: #fff; }
+.value-unit input, .value-unit select { border: 0; border-radius: 0; }
+.value-unit select { border-left: 1px solid var(--line); }
+.value-unit:focus-within { border-color: var(--primary); outline: 3px solid rgb(37 103 217 / 10%); }
+.value-unit input:focus, .value-unit select:focus { outline: 0; }
 .estimate-guide { display: flex; flex-wrap: wrap; gap: .55rem; }
 .estimate-guide span { border-radius: 999px; padding: .5rem .7rem; background: var(--primary-soft); color: var(--primary-dark); font-size: .7rem; font-weight: 700; }
 .template-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: .7rem; }
@@ -103,6 +126,8 @@
   .ingredient-row { grid-template-columns: 1fr; grid-template-areas: "name" "price" "purchase" "usage" "cost" "warning"; gap: .7rem; padding: 1rem; }
   .ingredient-cost { text-align: left; color: var(--primary); }
   .remove-ingredient { position: absolute; right: .6rem; top: .6rem; }
+  .packaging-row { grid-template-columns: 1fr; grid-template-areas: "package-name" "package-price" "package-purchase" "package-usage" "package-cost"; gap: .7rem; }
+  .packaging-cost { padding-right: 0; text-align: left; color: var(--primary); }
 }
 
 @media (max-width: 640px) {
@@ -115,7 +140,7 @@
   .calc-card { border-radius: 18px; padding: 1rem; }
   .ingredient-heading { display: grid; }
   .ingredient-heading .button { width: 100%; }
-  .form-grid, .cost-grid, .pricing-grid, .template-grid { grid-template-columns: 1fr; }
+  .form-grid, .cost-grid, .pricing-grid, .template-grid, .operation-grid { grid-template-columns: 1fr; }
   .quantity-unit { grid-template-columns: minmax(0, 1fr) minmax(92px, 120px); }
   .scenario-grid { grid-template-columns: 1fr; }
   .summary-card { display: block; }

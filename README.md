@@ -10,7 +10,8 @@ HPPta V2 adalah kalkulator Harga Pokok Produksi dari KitaLab. Pada tahap pengemb
 - Satu mode kalkulator HPP berbasis resep.
 - Section Produk untuk nama produk dan jumlah jadi.
 - Section Resep untuk menghitung biaya bahan.
-- Section Biaya Operasional yang opsional dan bernilai Rp0 jika dikosongkan.
+- Section Kemasan opsional untuk pembelian per pcs, pemakaian, dan biaya packaging tambahan.
+- Section Biaya Operasional opsional dengan metode langsung atau alokasi.
 - Penyimpanan sementara menggunakan browser perangkat.
 - Tanpa login, register, dan database pada tahap pengembangan ini.
 
@@ -56,6 +57,12 @@ Pengguna menekan **Coba Kalkulator** dan langsung masuk ke kalkulator. URL klasi
 
 - Total HPP resep berasal dari biaya seluruh bahan yang digunakan.
 - HPP per produk adalah total HPP resep dibagi jumlah jadi.
-- Biaya operasional yang diisi ditambahkan ke total resep sebelum dibagi jumlah jadi.
+- Kemasan dihitung dari `harga pembelian ÷ isi pembelian × jumlah dipakai`.
+- Tenaga kerja dapat dihitung per produksi, hari, minggu, atau bulan berdasarkan jumlah produksi dalam periode.
+- Gas dapat diisi langsung atau dihitung dari harga tabung, lama tabung bertahan, dan durasi pemakaian.
+- Listrik dapat diisi langsung atau dialokasikan dari tagihan dan jam penggunaan.
+- Air dapat diisi langsung atau dialokasikan dari tagihan dan jumlah produksi.
+- Biaya operasional lain tetap dapat diisi langsung per produksi.
+- Semua biaya opsional bernilai Rp0 jika dikosongkan.
 - Biaya bahan dihitung dari harga dan isi pembelian terhadap jumlah pemakaian.
 - Data sementara disimpan di browser perangkat pengguna.

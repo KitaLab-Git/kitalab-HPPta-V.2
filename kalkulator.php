@@ -62,14 +62,75 @@ $requestedMode = 'easy';
                 </section>
 
                 <section class="calc-card">
-                    <div class="calc-card-heading">
-                        <div><span class="step-label">03 · Biaya operasional</span><h2>Biaya tambahan produksi <small class="optional-label">Opsional</small></h2><p>Lewati bagian ini jika belum ingin memasukkan biaya operasional. Kolom kosong dihitung Rp0.</p></div>
+                    <div class="calc-card-heading ingredient-heading">
+                        <div><span class="step-label">03 · Kemasan</span><h2>Kemasan produk <small class="optional-label">Opsional</small></h2><p>Tambahkan cup, botol, plastik, stiker, kardus, atau kemasan lain yang dipakai.</p></div>
+                        <button class="button button-secondary" id="add-packaging" type="button">+ Tambah kemasan</button>
                     </div>
-                    <div class="form-grid cost-grid">
-                        <label class="calc-field"><span>Tenaga kerja per produksi</span><div class="currency-input"><span>Rp</span><input id="labor-cost" type="text" inputmode="numeric" placeholder="0"></div></label>
-                        <label class="calc-field"><span>Kemasan per produksi</span><div class="currency-input"><span>Rp</span><input id="packaging-cost" type="text" inputmode="numeric" placeholder="0"></div></label>
-                        <label class="calc-field"><span>Gas, listrik, dan air</span><div class="currency-input"><span>Rp</span><input id="utilities-cost" type="text" inputmode="numeric" placeholder="0"></div></label>
-                        <label class="calc-field"><span>Biaya operasional lainnya</span><div class="currency-input"><span>Rp</span><input id="overhead-cost" type="text" inputmode="numeric" placeholder="0"></div></label>
+                    <div id="packaging-list" class="packaging-list"></div>
+                    <div class="empty-ingredients" id="empty-packaging"><strong>Belum ada kemasan</strong><p>Bagian ini boleh dilewati jika produk tidak memakai kemasan.</p></div>
+                    <label class="calc-field additional-packaging"><span>Biaya packaging tambahan per produksi</span><div class="currency-input"><span>Rp</span><input id="additional-packaging-cost" type="text" inputmode="numeric" placeholder="0"></div><small>Contoh: sablon, cetak label, atau jasa pengemasan.</small></label>
+                </section>
+
+                <section class="calc-card">
+                    <div class="calc-card-heading">
+                        <div><span class="step-label">04 · Biaya operasional</span><h2>Operasional produksi <small class="optional-label">Opsional</small></h2><p>Pilih cara input yang paling mudah. Kolom kosong selalu dihitung Rp0.</p></div>
+                    </div>
+
+                    <div class="operation-stack">
+                        <section class="operation-block" aria-labelledby="labor-title">
+                            <div class="operation-heading"><div><h3 id="labor-title">Tenaga kerja</h3><p>Biaya akan dialokasikan ke satu kali produksi.</p></div><strong id="labor-result">Rp 0</strong></div>
+                            <div class="form-grid operation-grid">
+                                <label class="calc-field"><span>Jumlah tenaga kerja</span><input id="labor-worker-count" type="number" min="0" step="1" placeholder="0"></label>
+                                <label class="calc-field"><span>Biaya per tenaga kerja</span><div class="currency-input"><span>Rp</span><input id="labor-cost-per-worker" type="text" inputmode="numeric" placeholder="0"></div></label>
+                                <label class="calc-field"><span>Satuan biaya</span><select id="labor-period"><option value="production">Per produksi</option><option value="day">Per hari</option><option value="week">Per minggu</option><option value="month">Per bulan</option></select></label>
+                                <label class="calc-field" id="labor-production-field" hidden><span>Jumlah produksi dalam periode</span><input id="labor-productions-per-period" type="number" min="0" step="1" placeholder="Contoh: 100"></label>
+                            </div>
+                        </section>
+
+                        <section class="operation-block" aria-labelledby="gas-title">
+                            <div class="operation-heading"><div><h3 id="gas-title">Gas</h3><p>Masukkan langsung atau hitung dari lama satu tabung bertahan.</p></div><strong id="gas-result">Rp 0</strong></div>
+                            <label class="calc-field method-field"><span>Metode perhitungan</span><select id="gas-method"><option value="direct">Biaya langsung per produksi</option><option value="usage">Berdasarkan durasi pemakaian tabung</option></select></label>
+                            <div class="form-grid operation-grid" data-gas-panel="direct">
+                                <label class="calc-field"><span>Biaya gas per produksi</span><div class="currency-input"><span>Rp</span><input id="gas-direct-cost" type="text" inputmode="numeric" placeholder="0"></div></label>
+                            </div>
+                            <div class="form-grid operation-grid" data-gas-panel="usage" hidden>
+                                <label class="calc-field"><span>Harga satu tabung</span><div class="currency-input"><span>Rp</span><input id="gas-cylinder-price" type="text" inputmode="numeric" placeholder="0"></div></label>
+                                <label class="calc-field"><span>Satu tabung bertahan</span><div class="value-unit"><input id="gas-lifespan" type="number" min="0" step="any" placeholder="0"><select id="gas-lifespan-unit"><option value="hour">jam</option><option value="day">hari</option></select></div></label>
+                                <label class="calc-field"><span>Dipakai per produksi</span><div class="value-unit"><input id="gas-usage-production" type="number" min="0" step="any" placeholder="0"><select id="gas-usage-unit"><option value="hour">jam</option><option value="day">hari</option></select></div></label>
+                            </div>
+                        </section>
+
+                        <section class="operation-block" aria-labelledby="electricity-title">
+                            <div class="operation-heading"><div><h3 id="electricity-title">Listrik</h3><p>Masukkan langsung atau alokasikan tagihan berdasarkan jam penggunaan.</p></div><strong id="electricity-result">Rp 0</strong></div>
+                            <label class="calc-field method-field"><span>Metode perhitungan</span><select id="electricity-method"><option value="direct">Biaya langsung per produksi</option><option value="allocation">Alokasi tagihan berdasarkan durasi</option></select></label>
+                            <div class="form-grid operation-grid" data-electricity-panel="direct">
+                                <label class="calc-field"><span>Biaya listrik per produksi</span><div class="currency-input"><span>Rp</span><input id="electricity-direct-cost" type="text" inputmode="numeric" placeholder="0"></div></label>
+                            </div>
+                            <div class="form-grid operation-grid" data-electricity-panel="allocation" hidden>
+                                <label class="calc-field"><span>Total tagihan listrik</span><div class="currency-input"><span>Rp</span><input id="electricity-bill" type="text" inputmode="numeric" placeholder="0"></div></label>
+                                <label class="calc-field"><span>Periode tagihan</span><select id="electricity-period"><option value="day">Harian</option><option value="week">Mingguan</option><option value="month">Bulanan</option></select></label>
+                                <label class="calc-field"><span>Total jam penggunaan dalam periode</span><div class="input-suffix"><input id="electricity-total-hours" type="number" min="0" step="any" placeholder="0"><span>jam</span></div></label>
+                                <label class="calc-field"><span>Digunakan per produksi</span><div class="input-suffix"><input id="electricity-hours-production" type="number" min="0" step="any" placeholder="0"><span>jam</span></div></label>
+                            </div>
+                        </section>
+
+                        <section class="operation-block" aria-labelledby="water-title">
+                            <div class="operation-heading"><div><h3 id="water-title">Air</h3><p>Masukkan langsung atau bagi tagihan dengan jumlah produksi.</p></div><strong id="water-result">Rp 0</strong></div>
+                            <label class="calc-field method-field"><span>Metode perhitungan</span><select id="water-method"><option value="direct">Biaya langsung per produksi</option><option value="allocation">Alokasi tagihan berdasarkan jumlah produksi</option></select></label>
+                            <div class="form-grid operation-grid" data-water-panel="direct">
+                                <label class="calc-field"><span>Biaya air per produksi</span><div class="currency-input"><span>Rp</span><input id="water-direct-cost" type="text" inputmode="numeric" placeholder="0"></div></label>
+                            </div>
+                            <div class="form-grid operation-grid" data-water-panel="allocation" hidden>
+                                <label class="calc-field"><span>Total tagihan air</span><div class="currency-input"><span>Rp</span><input id="water-bill" type="text" inputmode="numeric" placeholder="0"></div></label>
+                                <label class="calc-field"><span>Periode tagihan</span><select id="water-period"><option value="day">Harian</option><option value="week">Mingguan</option><option value="month">Bulanan</option></select></label>
+                                <label class="calc-field"><span>Jumlah produksi dalam periode</span><input id="water-productions-period" type="number" min="0" step="1" placeholder="Contoh: 100"></label>
+                            </div>
+                        </section>
+
+                        <section class="operation-block" aria-labelledby="other-title">
+                            <div class="operation-heading"><div><h3 id="other-title">Biaya operasional lainnya</h3><p>Masukkan total biaya lain untuk satu kali produksi.</p></div><strong id="other-result">Rp 0</strong></div>
+                            <label class="calc-field"><span>Biaya lainnya per produksi</span><div class="currency-input"><span>Rp</span><input id="other-operation-cost" type="text" inputmode="numeric" placeholder="0"></div></label>
+                        </section>
                     </div>
                 </section>
 
@@ -81,8 +142,9 @@ $requestedMode = 'easy';
                     <strong class="summary-value" id="hpp-per-unit">Rp 0</strong>
                     <div class="summary-breakdown">
                         <div><span>Total bahan</span><strong id="total-ingredients">Rp 0</strong></div>
-                        <div><span>Biaya operasional</span><strong id="total-extras">Rp 0</strong></div>
-                        <div class="summary-total"><span>Total resep</span><strong id="total-batch">Rp 0</strong></div>
+                        <div><span>Total kemasan</span><strong id="total-packaging">Rp 0</strong></div>
+                        <div><span>Biaya operasional</span><strong id="total-operations">Rp 0</strong></div>
+                        <div class="summary-total"><span>Total produksi</span><strong id="total-batch">Rp 0</strong></div>
                     </div>
                     <p class="summary-help" id="summary-help">Isi produk, jumlah jadi, dan resep untuk melihat HPP per produk.</p>
                 </div>
@@ -103,7 +165,18 @@ $requestedMode = 'easy';
         </article>
     </template>
 
-    <script src="assets/js/hpp-engine.js?v=20260805-2"></script>
-    <script src="assets/js/calculator.js?v=20260805-2"></script>
+    <template id="packaging-template">
+        <article class="packaging-row">
+            <label class="calc-field packaging-name"><span>Nama kemasan</span><input data-packaging-field="name" type="text" maxlength="60" placeholder="Contoh: Cup 16 oz"></label>
+            <label class="calc-field packaging-price"><span>Harga pembelian</span><div class="currency-input"><span>Rp</span><input data-packaging-field="purchasePrice" type="text" inputmode="numeric" placeholder="0"></div></label>
+            <label class="calc-field packaging-purchase"><span>Isi pembelian</span><div class="input-suffix"><input data-packaging-field="purchaseQty" type="number" min="0" step="any" placeholder="0"><span>pcs</span></div></label>
+            <label class="calc-field packaging-usage"><span>Dipakai per produksi</span><div class="input-suffix"><input data-packaging-field="usedQty" type="number" min="0" step="any" placeholder="0"><span>pcs</span></div></label>
+            <strong class="packaging-cost" data-packaging-cost>Rp 0</strong>
+            <button class="remove-packaging" type="button" aria-label="Hapus kemasan">×</button>
+        </article>
+    </template>
+
+    <script src="assets/js/hpp-engine.js?v=20260805-3"></script>
+    <script src="assets/js/calculator.js?v=20260805-3"></script>
 </body>
 </html>

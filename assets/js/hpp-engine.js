@@ -40,16 +40,63 @@
     return { cost: purchasePrice * converted / purchaseQty, compatible: true, usedInPurchaseUnit: converted };
   };
 
+  const packagingCost = (item) => {
+    const purchasePrice = number(item.purchasePrice);
+    const purchaseQty = number(item.purchaseQty);
+    const usedQty = number(item.usedQty);
+    return purchasePrice && purchaseQty && usedQty ? purchasePrice * usedQty / purchaseQty : 0;
+  };
+
+  const laborCost = (labor = {}) => {
+    const total = number(labor.workerCount) * number(labor.costPerWorker);
+    if (!total) return 0;
+    if (labor.period === "production") return total;
+    const productions = number(labor.productionsPerPeriod);
+    return productions ? total / productions : 0;
+  };
+
+  const durationInHours = (value, unit) => number(value) * (unit === "day" ? 24 : 1);
+
+  const gasCost = (gas = {}) => {
+    if (gas.method !== "usage") return number(gas.directCost);
+    const lifespan = durationInHours(gas.lifespan, gas.lifespanUnit);
+    const usage = durationInHours(gas.usagePerProduction, gas.usageUnit);
+    return lifespan ? number(gas.cylinderPrice) * usage / lifespan : 0;
+  };
+
+  const electricityCost = (electricity = {}) => {
+    if (electricity.method !== "allocation") return number(electricity.directCost);
+    const totalHours = number(electricity.totalUsageHours);
+    return totalHours ? number(electricity.billAmount) * number(electricity.hoursPerProduction) / totalHours : 0;
+  };
+
+  const waterCost = (water = {}) => {
+    if (water.method !== "allocation") return number(water.directCost);
+    const productions = number(water.productionsPerPeriod);
+    return productions ? number(water.billAmount) / productions : 0;
+  };
+
+  const operationalCosts = (operations = {}) => {
+    const breakdown = {
+      labor: laborCost(operations.labor),
+      gas: gasCost(operations.gas),
+      electricity: electricityCost(operations.electricity),
+      water: waterCost(operations.water),
+      other: number(operations.other),
+    };
+    return { ...breakdown, total: Object.values(breakdown).reduce((sum, value) => sum + value, 0) };
+  };
+
   const calculate = (state) => {
     const ingredientResults = (state.ingredients || []).map((item) => ingredientCost(item, state.mode));
     const ingredients = ingredientResults.reduce((sum, item) => sum + item.cost, 0);
+    const packagingResults = (state.packaging?.items || []).map((item) => packagingCost(item));
+    const packaging = packagingResults.reduce((sum, value) => sum + value, 0) + number(state.packaging?.additionalCost);
+    const operationalBreakdown = operationalCosts(state.operations);
+    const operations = operationalBreakdown.total;
     const waste = state.mode === "professional" ? ingredients * Math.min(number(state.costs?.wastePercent), 100) / 100 : 0;
-    const operationalKeys = ["labor", "packaging", "utilities", "overhead"];
-    const extraKeys = state.mode === "professional"
-      ? [...operationalKeys, "depreciation"]
-      : ["easy", "simulation"].includes(state.mode) ? operationalKeys : [];
-    const extras = extraKeys
-      .reduce((sum, key) => sum + number(state.costs?.[key]), 0);
+    const legacyExtras = state.mode === "professional" ? number(state.costs?.depreciation) : 0;
+    const extras = packaging + operations + legacyExtras;
     const batch = ingredients + waste + extras;
     const batchYield = number(state.product?.batchYield);
     const perUnit = batchYield ? batch / batchYield : 0;
@@ -63,6 +110,10 @@
     return {
       ingredientResults,
       ingredients,
+      packagingResults,
+      packaging,
+      operationalBreakdown,
+      operations,
       waste,
       extras,
       batch,
@@ -74,5 +125,5 @@
     };
   };
 
-  root.HppEngine = { calculate, convert, ingredientCost };
+  root.HppEngine = { calculate, convert, ingredientCost, packagingCost, laborCost, gasCost, electricityCost, waterCost, operationalCosts };
 })(typeof window !== "undefined" ? window : globalThis);

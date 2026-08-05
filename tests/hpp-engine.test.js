@@ -24,24 +24,24 @@ const base = {
 const professional = HppEngine.calculate(base);
 assert.equal(professional.ingredients, 5000);
 assert.equal(professional.waste, 500);
-assert.equal(professional.extras, 15000);
-assert.equal(professional.batch, 20500);
-assert.equal(professional.perUnit, 2050);
-assert.equal(professional.recommendedPrice, 2562.5);
+assert.equal(professional.extras, 0);
+assert.equal(professional.batch, 5500);
+assert.equal(professional.perUnit, 550);
+assert.equal(professional.recommendedPrice, 687.5);
 
 const easy = HppEngine.calculate({ ...base, mode: "easy" });
-assert.equal(easy.extras, 15000, "Mode tunggal menghitung biaya operasional yang diisi");
+assert.equal(easy.extras, 0);
 assert.equal(easy.waste, 0);
-assert.equal(easy.perUnit, 2000);
+assert.equal(easy.perUnit, 500);
 
 const easyWithoutOperations = HppEngine.calculate({ ...base, mode: "easy", costs: {} });
 assert.equal(easyWithoutOperations.extras, 0, "Biaya operasional boleh dikosongkan");
 assert.equal(easyWithoutOperations.perUnit, 500);
 
 const simulation = HppEngine.calculate({ ...base, mode: "simulation" });
-assert.equal(simulation.extras, 15000);
+assert.equal(simulation.extras, 0);
 assert.equal(simulation.waste, 0);
-assert.equal(simulation.monthlyCapital, 200000);
+assert.equal(simulation.monthlyCapital, 50000);
 assert.equal(simulation.scenarios.length, 3);
 
 const estimate = HppEngine.calculate({ ...base, mode: "estimate" });
@@ -68,5 +68,35 @@ assert.ok(Math.abs(HppEngine.ingredientCost({
   usedQty: 15,
   usedUnit: "g",
 }, "easy").cost - 463.6363636363636) < 0.0001);
+
+assert.equal(HppEngine.packagingCost({ purchasePrice: 80000, purchaseQty: 100, usedQty: 10 }), 8000);
+assert.equal(HppEngine.laborCost({ workerCount: 2, costPerWorker: 1500000, period: "month", productionsPerPeriod: 100 }), 30000);
+assert.equal(HppEngine.laborCost({ workerCount: 2, costPerWorker: 50000, period: "production" }), 100000);
+assert.equal(HppEngine.laborCost({ workerCount: 2, costPerWorker: 1500000, period: "month", productionsPerPeriod: 0 }), 0);
+assert.equal(HppEngine.gasCost({ method: "usage", cylinderPrice: 25000, lifespan: 20, lifespanUnit: "hour", usagePerProduction: 2, usageUnit: "hour" }), 2500);
+assert.equal(HppEngine.gasCost({ method: "usage", cylinderPrice: 24000, lifespan: 4, lifespanUnit: "day", usagePerProduction: 8, usageUnit: "hour" }), 2000);
+assert.equal(HppEngine.electricityCost({ method: "allocation", billAmount: 600000, totalUsageHours: 200, hoursPerProduction: 2 }), 6000);
+assert.equal(HppEngine.waterCost({ method: "allocation", billAmount: 300000, productionsPerPeriod: 100 }), 3000);
+
+const complete = HppEngine.calculate({
+  mode: "easy",
+  product: { batchYield: 10 },
+  ingredients: [ingredient],
+  packaging: { items: [{ purchasePrice: 80000, purchaseQty: 100, usedQty: 10 }], additionalCost: 2000 },
+  operations: {
+    labor: { workerCount: 2, costPerWorker: 1500000, period: "month", productionsPerPeriod: 100 },
+    gas: { method: "usage", cylinderPrice: 25000, lifespan: 20, lifespanUnit: "hour", usagePerProduction: 2, usageUnit: "hour" },
+    electricity: { method: "allocation", billAmount: 600000, totalUsageHours: 200, hoursPerProduction: 2 },
+    water: { method: "allocation", billAmount: 300000, productionsPerPeriod: 100 },
+    other: 1000,
+  },
+  costs: {},
+  pricing: {},
+});
+assert.equal(complete.ingredients, 5000);
+assert.equal(complete.packaging, 10000);
+assert.equal(complete.operations, 42500);
+assert.equal(complete.batch, 57500);
+assert.equal(complete.perUnit, 5750);
 
 console.log("Semua pengujian mesin HPP lulus.");
