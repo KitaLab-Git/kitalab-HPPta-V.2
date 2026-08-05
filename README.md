@@ -60,11 +60,11 @@ Pengguna menekan **Coba Kalkulator** dan langsung masuk ke kalkulator. URL klasi
 - HPP per produk adalah total HPP resep dibagi jumlah jadi.
 - Harga jual dihitung dari `HPP per produk × (1 + margin ÷ 100)` tanpa mengubah nilai HPP.
 - Kemasan dihitung dari `harga pembelian ÷ isi pembelian × jumlah dipakai`, lalu ditambah biaya packing item tersebut per produksi atau per pcs.
-- Tenaga kerja dapat dihitung per produksi, hari, minggu, atau bulan. Label jumlah produksi mengikuti satuan yang dipilih, misalnya "Jumlah produksi dalam sebulan".
+- Tenaga kerja memiliki satuan biaya dan satuan jumlah produksi yang dapat dipilih secara terpisah, sehingga biaya bulanan dapat dialokasikan memakai jumlah produksi harian, mingguan, atau bulanan.
 - Gas dapat diisi langsung atau dihitung dari harga tabung, lama tabung bertahan, dan durasi pemakaian.
 - Listrik dialokasikan dari biaya, lama biaya tersebut digunakan, serta jumlah produksi per jam, hari, minggu, atau bulan.
-- Air dapat diisi langsung atau dialokasikan dari tagihan dan jumlah produksi dengan label satuan waktu yang jelas.
-- Biaya operasional lainnya dapat ditambahkan sebagai beberapa item bernama dengan nominal per produksi.
+- Air dapat diisi langsung atau dialokasikan dari tagihan dan jumlah produksi dengan satuan masing-masing dalam satu baris form.
+- Biaya operasional lainnya dapat ditambahkan sebagai beberapa item bernama. Setiap item memiliki satuan biaya dan satuan jumlah produksi yang dapat dipilih secara terpisah.
 - Semua biaya opsional bernilai Rp0 jika dikosongkan.
 - Biaya bahan dihitung dari harga dan isi pembelian terhadap jumlah pemakaian.
 - Data sementara disimpan di browser perangkat pengguna.

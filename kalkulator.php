@@ -16,7 +16,7 @@ $requestedMode = 'easy';
     <title>Kalkulator HPP - HPPta</title>
     <link rel="icon" href="assets/images/kitalab-icon.svg?v=20260804" type="image/svg+xml">
     <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/calculator.css?v=20260805-3">
+    <link rel="stylesheet" href="assets/css/calculator.css?v=20260805-4">
 </head>
 <body class="calculator-page" data-initial-mode="<?= hpp_e($requestedMode) ?>">
     <a class="skip-link" href="#calculator-main">Lewati ke kalkulator</a>
@@ -82,7 +82,7 @@ $requestedMode = 'easy';
                                 <label class="calc-field"><span>Jumlah tenaga kerja</span><input id="labor-worker-count" type="number" min="0" step="1" placeholder="0"></label>
                                 <label class="calc-field"><span>Biaya per tenaga kerja</span><div class="currency-input"><span>Rp</span><input id="labor-cost-per-worker" type="text" inputmode="numeric" placeholder="0"></div></label>
                                 <label class="calc-field"><span>Satuan biaya</span><select id="labor-period"><option value="production">Per produksi</option><option value="day">Per hari</option><option value="week">Per minggu</option><option value="month">Per bulan</option></select></label>
-                                <label class="calc-field" id="labor-production-field" hidden><span id="labor-productions-label">Jumlah produksi dalam sebulan</span><input id="labor-productions-per-period" type="number" min="0" step="1" placeholder="Contoh: 100"></label>
+                                <label class="calc-field" id="labor-production-field" hidden><span>Jumlah produksi</span><div class="value-unit"><input id="labor-productions-per-period" type="number" min="0" step="1" placeholder="0"><select id="labor-production-unit" aria-label="Satuan jumlah produksi tenaga kerja"><option value="day">per hari</option><option value="week">per minggu</option><option value="month">per bulan</option></select></div></label>
                             </div>
                         </section>
 
@@ -112,14 +112,16 @@ $requestedMode = 'easy';
 
                         <section class="operation-block" aria-labelledby="water-title">
                             <div class="operation-heading"><div><h3 id="water-title">Air</h3><p>Masukkan langsung atau bagi tagihan dengan jumlah produksi.</p></div><strong id="water-result">Rp 0</strong></div>
-                            <label class="calc-field method-field"><span>Metode perhitungan</span><select id="water-method"><option value="direct">Biaya langsung per produksi</option><option value="allocation">Alokasi tagihan berdasarkan jumlah produksi</option></select></label>
-                            <div class="form-grid operation-grid" data-water-panel="direct">
-                                <label class="calc-field"><span>Biaya air per produksi</span><div class="currency-input"><span>Rp</span><input id="water-direct-cost" type="text" inputmode="numeric" placeholder="0"></div></label>
-                            </div>
-                            <div class="form-grid operation-grid" data-water-panel="allocation" hidden>
-                                <label class="calc-field"><span>Total tagihan air</span><div class="currency-input"><span>Rp</span><input id="water-bill" type="text" inputmode="numeric" placeholder="0"></div></label>
-                                <label class="calc-field"><span>Satuan tagihan</span><select id="water-period"><option value="day">Per hari</option><option value="week">Per minggu</option><option value="month">Per bulan</option></select></label>
-                                <label class="calc-field"><span id="water-productions-label">Jumlah produksi per bulan</span><input id="water-productions-period" type="number" min="0" step="1" placeholder="Contoh: 100"></label>
+                            <div class="water-fields">
+                                <label class="calc-field"><span>Metode perhitungan</span><select id="water-method"><option value="direct">Biaya langsung per produksi</option><option value="allocation">Alokasi tagihan berdasarkan jumlah produksi</option></select></label>
+                                <div class="water-panel" data-water-panel="direct">
+                                    <label class="calc-field"><span>Biaya air per produksi</span><div class="currency-input"><span>Rp</span><input id="water-direct-cost" type="text" inputmode="numeric" placeholder="0"></div></label>
+                                </div>
+                                <div class="water-panel" data-water-panel="allocation" hidden>
+                                    <label class="calc-field"><span>Total tagihan air</span><div class="currency-input"><span>Rp</span><input id="water-bill" type="text" inputmode="numeric" placeholder="0"></div></label>
+                                    <label class="calc-field"><span>Satuan tagihan</span><select id="water-period"><option value="day">Per hari</option><option value="week">Per minggu</option><option value="month">Per bulan</option></select></label>
+                                    <label class="calc-field"><span>Jumlah produksi</span><div class="value-unit"><input id="water-productions-period" type="number" min="0" step="1" placeholder="0"><select id="water-production-unit" aria-label="Satuan jumlah produksi air"><option value="day">per hari</option><option value="week">per minggu</option><option value="month">per bulan</option></select></div></label>
+                                </div>
                             </div>
                         </section>
 
@@ -186,12 +188,13 @@ $requestedMode = 'easy';
     <template id="other-operation-template">
         <article class="other-operation-row">
             <label class="calc-field"><span>Nama biaya</span><input data-other-field="name" type="text" maxlength="60" placeholder="Contoh: Transportasi"></label>
-            <label class="calc-field"><span>Nominal per produksi</span><div class="currency-input"><span>Rp</span><input data-other-field="amount" type="text" inputmode="numeric" placeholder="0"></div></label>
+            <label class="calc-field other-amount"><span>Nominal biaya</span><div class="currency-select"><span>Rp</span><input data-other-field="amount" type="text" inputmode="numeric" placeholder="0"><select data-other-field="amountUnit" aria-label="Satuan nominal biaya"><option value="production">per produksi</option><option value="day">per hari</option><option value="week">per minggu</option><option value="month">per bulan</option></select></div></label>
+            <label class="calc-field other-production" data-other-production-field hidden><span>Jumlah produksi</span><div class="value-unit"><input data-other-field="productionCount" type="number" min="0" step="any" placeholder="0"><select data-other-field="productionUnit" aria-label="Satuan jumlah produksi biaya lainnya"><option value="day">per hari</option><option value="week">per minggu</option><option value="month">per bulan</option></select></div></label>
             <button class="remove-other-operation" type="button" aria-label="Hapus biaya lainnya">×</button>
         </article>
     </template>
 
-    <script src="assets/js/hpp-engine.js?v=20260805-4"></script>
-    <script src="assets/js/calculator.js?v=20260805-5"></script>
+    <script src="assets/js/hpp-engine.js?v=20260805-5"></script>
+    <script src="assets/js/calculator.js?v=20260805-6"></script>
 </body>
 </html>

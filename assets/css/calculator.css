@@ -81,12 +81,14 @@
 .currency-select input:focus, .currency-select select:focus { outline: 0; }
 .gas-fields { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .8rem; }
 .gas-panel { display: contents; }
+.water-fields { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .8rem; }
+.water-panel { display: contents; }
 .electricity-fields { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-areas: "electricity-cost electricity-duration electricity-productions"; gap: .8rem; }
 .electricity-cost { grid-area: electricity-cost; }
 .electricity-duration { grid-area: electricity-duration; }
 .electricity-productions { grid-area: electricity-productions; }
 .other-operation-list { display: grid; gap: .65rem; margin-top: .8rem; }
-.other-operation-row { position: relative; display: grid; grid-template-columns: 1.2fr 1fr 32px; gap: .7rem; align-items: end; border: 1px solid var(--line); border-radius: 13px; padding: .8rem; background: #fff; }
+.other-operation-row { position: relative; display: grid; grid-template-columns: 1.1fr 1.2fr 1.1fr 32px; gap: .7rem; align-items: end; border: 1px solid var(--line); border-radius: 13px; padding: .8rem; background: #fff; }
 .remove-other-operation { width: 30px; height: 30px; border: 0; border-radius: 9px; background: #f3f6fa; color: #7b89a0; font-size: 1.15rem; }
 .remove-other-operation:hover { background: #ffe7e7; color: #a83030; }
 .empty-operations { margin-top: .75rem; border: 1px dashed var(--line); border-radius: 12px; padding: .8rem; color: var(--muted); font-size: .7rem; text-align: center; }
@@ -160,8 +162,8 @@
   .packaging-row { grid-template-columns: 1fr; grid-template-areas: "package-name" "package-price" "package-purchase" "package-usage" "package-packing" "package-cost"; gap: .7rem; }
   .packaging-cost { padding-right: 0; text-align: left; color: var(--primary); }
   .electricity-fields { grid-template-columns: 1fr; grid-template-areas: "electricity-cost" "electricity-duration" "electricity-productions"; }
-  .labor-fields, .gas-fields { grid-template-columns: 1fr; }
-  .gas-panel { display: grid; gap: .8rem; }
+  .labor-fields, .gas-fields, .water-fields { grid-template-columns: 1fr; }
+  .gas-panel, .water-panel { display: grid; gap: .8rem; }
   .other-operation-row { grid-template-columns: 1fr; padding-right: 3rem; }
   .remove-other-operation { position: absolute; right: .6rem; top: .6rem; }
 }

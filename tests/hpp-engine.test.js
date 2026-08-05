@@ -72,6 +72,7 @@ assert.ok(Math.abs(HppEngine.ingredientCost({
 assert.equal(HppEngine.packagingCost({ purchasePrice: 80000, purchaseQty: 100, usedQty: 10, packingCost: 200, packingCostUnit: "piece" }), 10000);
 assert.equal(HppEngine.packagingCost({ purchasePrice: 80000, purchaseQty: 100, usedQty: 10, packingCost: 2000, packingCostUnit: "production" }), 10000);
 assert.equal(HppEngine.laborCost({ workerCount: 2, costPerWorker: 1500000, period: "month", productionsPerPeriod: 100 }), 30000);
+assert.equal(HppEngine.laborCost({ workerCount: 2, costPerWorker: 1500000, period: "month", productionsPerPeriod: 20, productionUnit: "day" }), 5000);
 assert.equal(HppEngine.laborCost({ workerCount: 2, costPerWorker: 50000, period: "production" }), 100000);
 assert.equal(HppEngine.laborCost({ workerCount: 2, costPerWorker: 1500000, period: "month", productionsPerPeriod: 0 }), 0);
 assert.equal(HppEngine.gasCost({ method: "usage", cylinderPrice: 25000, lifespan: 20, lifespanUnit: "hour", usagePerProduction: 2, usageUnit: "hour" }), 2500);
@@ -79,6 +80,8 @@ assert.equal(HppEngine.gasCost({ method: "usage", cylinderPrice: 24000, lifespan
 assert.equal(HppEngine.electricityCost({ cost: 600000, duration: 1, durationUnit: "month", productionCount: 100, productionUnit: "month" }), 6000);
 assert.equal(HppEngine.electricityCost({ cost: 70000, duration: 1, durationUnit: "week", productionCount: 10, productionUnit: "day" }), 1000);
 assert.equal(HppEngine.waterCost({ method: "allocation", billAmount: 300000, productionsPerPeriod: 100 }), 3000);
+assert.equal(HppEngine.waterCost({ method: "allocation", billAmount: 300000, period: "month", productionsPerPeriod: 10, productionUnit: "day" }), 1000);
+assert.equal(HppEngine.otherCost({ amount: 70000, amountUnit: "week", productionCount: 10, productionUnit: "day" }), 1000);
 
 const complete = HppEngine.calculate({
   mode: "easy",

@@ -51,18 +51,27 @@
     return material + packing;
   };
 
-  const laborCost = (labor = {}) => {
-    const total = number(labor.workerCount) * number(labor.costPerWorker);
-    if (!total) return 0;
-    if (labor.period === "production") return total;
-    const productions = number(labor.productionsPerPeriod);
-    return productions ? total / productions : 0;
-  };
-
   const durationInHours = (value, unit) => {
     const factors = { hour: 1, day: 24, week: 168, month: 720 };
     return number(value) * (factors[unit] || 1);
   };
+
+  const allocatedCost = (amount, costUnit, productionCount, productionUnit) => {
+    const cost = number(amount);
+    if (!cost) return 0;
+    if (costUnit === "production") return cost;
+    const costHours = durationInHours(1, costUnit);
+    const productionHours = durationInHours(1, productionUnit);
+    const productions = productionHours ? number(productionCount) * costHours / productionHours : 0;
+    return productions ? cost / productions : 0;
+  };
+
+  const laborCost = (labor = {}) => allocatedCost(
+    number(labor.workerCount) * number(labor.costPerWorker),
+    labor.period,
+    labor.productionsPerPeriod,
+    labor.productionUnit || labor.period
+  );
 
   const gasCost = (gas = {}) => {
     if (gas.method !== "usage") return number(gas.directCost);
@@ -82,9 +91,10 @@
 
   const waterCost = (water = {}) => {
     if (water.method !== "allocation") return number(water.directCost);
-    const productions = number(water.productionsPerPeriod);
-    return productions ? number(water.billAmount) / productions : 0;
+    return allocatedCost(water.billAmount, water.period, water.productionsPerPeriod, water.productionUnit || water.period);
   };
+
+  const otherCost = (item = {}) => allocatedCost(item.amount, item.amountUnit || "production", item.productionCount, item.productionUnit || item.amountUnit);
 
   const operationalCosts = (operations = {}) => {
     const otherItems = Array.isArray(operations.otherItems) ? operations.otherItems : [];
@@ -94,7 +104,7 @@
       electricity: electricityCost(operations.electricity),
       water: waterCost(operations.water),
       other: otherItems.length
-        ? otherItems.reduce((sum, item) => sum + number(item.amount), 0)
+        ? otherItems.reduce((sum, item) => sum + otherCost(item), 0)
         : number(operations.other),
     };
     return { ...breakdown, total: Object.values(breakdown).reduce((sum, value) => sum + value, 0) };
@@ -138,5 +148,5 @@
     };
   };
 
-  root.HppEngine = { calculate, convert, ingredientCost, packagingCost, laborCost, gasCost, electricityCost, waterCost, operationalCosts };
+  root.HppEngine = { calculate, convert, ingredientCost, packagingCost, allocatedCost, laborCost, gasCost, electricityCost, waterCost, otherCost, operationalCosts };
 })(typeof window !== "undefined" ? window : globalThis);

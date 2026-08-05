@@ -9,18 +9,18 @@
 
   const defaultIngredient = () => ({ id: Date.now() + Math.random(), name: "", purchasePrice: 0, purchaseQty: 0, purchaseUnit: "g", usedQty: 0, usedUnit: "g" });
   const defaultPackaging = () => ({ id: Date.now() + Math.random(), name: "", purchasePrice: 0, purchaseQty: 0, usedQty: 0, packingCost: 0, packingCostUnit: "production" });
-  const defaultOtherOperation = () => ({ id: Date.now() + Math.random(), name: "", amount: 0 });
+  const defaultOtherOperation = () => ({ id: Date.now() + Math.random(), name: "", amount: 0, amountUnit: "production", productionCount: 0, productionUnit: "month" });
   const defaultState = () => ({
-    version: 5,
+    version: 6,
     mode: "easy",
     product: { name: "", batchYield: 1, yieldUnit: "produk", monthlyTarget: 0 },
     ingredients: [defaultIngredient()],
     packaging: { items: [] },
     operations: {
-      labor: { workerCount: 0, costPerWorker: 0, period: "production", productionsPerPeriod: 0 },
+      labor: { workerCount: 0, costPerWorker: 0, period: "production", productionsPerPeriod: 0, productionUnit: "month" },
       gas: { method: "direct", directCost: 0, cylinderPrice: 0, lifespan: 0, lifespanUnit: "hour", usagePerProduction: 0, usageUnit: "hour" },
       electricity: { cost: 0, duration: 1, durationUnit: "month", productionCount: 0, productionUnit: "month" },
-      water: { method: "direct", directCost: 0, billAmount: 0, period: "month", productionsPerPeriod: 0 },
+      water: { method: "direct", directCost: 0, billAmount: 0, period: "month", productionsPerPeriod: 0, productionUnit: "month" },
       otherItems: [],
     },
     costs: {},
@@ -55,9 +55,11 @@
           gas: { ...state.operations.gas, ...(saved.operations?.gas || {}) },
           water: { ...state.operations.water, ...(saved.operations?.water || {}) },
         };
+        if (!saved.operations?.labor?.productionUnit) state.operations.labor.productionUnit = saved.operations?.labor?.period === "production" ? "month" : (saved.operations?.labor?.period || "month");
+        if (!saved.operations?.water?.productionUnit) state.operations.water.productionUnit = saved.operations?.water?.period || "month";
         if (Number(saved.version) >= 4) {
           state.operations.electricity = { ...state.operations.electricity, ...(saved.operations?.electricity || {}) };
-          state.operations.otherItems = Array.isArray(saved.operations?.otherItems) ? saved.operations.otherItems : [];
+          state.operations.otherItems = Array.isArray(saved.operations?.otherItems) ? saved.operations.otherItems.map((item) => ({ ...defaultOtherOperation(), ...item })) : [];
         } else {
           const oldElectricity = saved.operations?.electricity || {};
           if (oldElectricity.method === "allocation") {
@@ -104,6 +106,7 @@
     ["labor-cost-per-worker", "operations.labor.costPerWorker", "currency"],
     ["labor-period", "operations.labor.period", "select"],
     ["labor-productions-per-period", "operations.labor.productionsPerPeriod", "number"],
+    ["labor-production-unit", "operations.labor.productionUnit", "select"],
     ["gas-method", "operations.gas.method", "select"],
     ["gas-direct-cost", "operations.gas.directCost", "currency"],
     ["gas-cylinder-price", "operations.gas.cylinderPrice", "currency"],
@@ -121,6 +124,7 @@
     ["water-bill", "operations.water.billAmount", "currency"],
     ["water-period", "operations.water.period", "select"],
     ["water-productions-period", "operations.water.productionsPerPeriod", "number"],
+    ["water-production-unit", "operations.water.productionUnit", "select"],
   ];
 
   function save() {
@@ -132,12 +136,8 @@
 
   function syncPanels() {
     byId("labor-production-field").hidden = state.operations.labor.period === "production";
-    const laborLabels = { day: "Jumlah produksi dalam sehari", week: "Jumlah produksi dalam seminggu", month: "Jumlah produksi dalam sebulan" };
-    byId("labor-productions-label").textContent = laborLabels[state.operations.labor.period] || "Jumlah produksi";
     document.querySelectorAll("[data-gas-panel]").forEach((panel) => panel.hidden = panel.dataset.gasPanel !== state.operations.gas.method);
     document.querySelectorAll("[data-water-panel]").forEach((panel) => panel.hidden = panel.dataset.waterPanel !== state.operations.water.method);
-    const waterLabels = { day: "Jumlah produksi per hari", week: "Jumlah produksi per minggu", month: "Jumlah produksi per bulan" };
-    byId("water-productions-label").textContent = waterLabels[state.operations.water.period] || "Jumlah produksi";
   }
 
   function syncInputs() {
@@ -237,6 +237,9 @@
       const fragment = otherOperationTemplate.content.cloneNode(true);
       const row = fragment.querySelector(".other-operation-row");
       bindRowFields(row, operation, "[data-other-field]", "otherField", ["amount"]);
+      const syncOtherRow = () => row.querySelector("[data-other-production-field]").hidden = operation.amountUnit === "production";
+      row.querySelector('[data-other-field="amountUnit"]').addEventListener("change", syncOtherRow);
+      syncOtherRow();
       row.querySelector(".remove-other-operation").addEventListener("click", () => {
         state.operations.otherItems = state.operations.otherItems.filter((item) => item.id !== operation.id);
         save(); renderOtherOperations(); calculate();
