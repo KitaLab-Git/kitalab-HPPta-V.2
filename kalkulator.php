@@ -16,7 +16,7 @@ $requestedMode = 'easy';
     <title>Kalkulator HPP - HPPta</title>
     <link rel="icon" href="assets/images/kitalab-icon.svg?v=20260804" type="image/svg+xml">
     <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/calculator.css?v=20260805-2">
+    <link rel="stylesheet" href="assets/css/calculator.css?v=20260805-3">
 </head>
 <body class="calculator-page" data-initial-mode="<?= hpp_e($requestedMode) ?>">
     <a class="skip-link" href="#calculator-main">Lewati ke kalkulator</a>
@@ -77,8 +77,8 @@ $requestedMode = 'easy';
 
                     <div class="operation-stack">
                         <section class="operation-block" aria-labelledby="labor-title">
-                            <div class="operation-heading"><div><h3 id="labor-title">Tenaga kerja</h3><p>Biaya akan dialokasikan ke satu kali produksi.</p></div><strong id="labor-result">Rp 0</strong></div>
-                            <div class="form-grid operation-grid">
+                            <div class="operation-heading"><div><h3 id="labor-title">Tenaga kerja</h3></div><strong id="labor-result">Rp 0</strong></div>
+                            <div class="form-grid operation-grid labor-fields">
                                 <label class="calc-field"><span>Jumlah tenaga kerja</span><input id="labor-worker-count" type="number" min="0" step="1" placeholder="0"></label>
                                 <label class="calc-field"><span>Biaya per tenaga kerja</span><div class="currency-input"><span>Rp</span><input id="labor-cost-per-worker" type="text" inputmode="numeric" placeholder="0"></div></label>
                                 <label class="calc-field"><span>Satuan biaya</span><select id="labor-period"><option value="production">Per produksi</option><option value="day">Per hari</option><option value="week">Per minggu</option><option value="month">Per bulan</option></select></label>
@@ -87,20 +87,22 @@ $requestedMode = 'easy';
                         </section>
 
                         <section class="operation-block" aria-labelledby="gas-title">
-                            <div class="operation-heading"><div><h3 id="gas-title">Gas</h3><p>Masukkan langsung atau hitung dari lama satu tabung bertahan.</p></div><strong id="gas-result">Rp 0</strong></div>
-                            <label class="calc-field method-field"><span>Metode perhitungan</span><select id="gas-method"><option value="direct">Biaya langsung per produksi</option><option value="usage">Berdasarkan durasi pemakaian tabung</option></select></label>
-                            <div class="form-grid operation-grid" data-gas-panel="direct">
-                                <label class="calc-field"><span>Biaya gas per produksi</span><div class="currency-input"><span>Rp</span><input id="gas-direct-cost" type="text" inputmode="numeric" placeholder="0"></div></label>
-                            </div>
-                            <div class="form-grid operation-grid" data-gas-panel="usage" hidden>
-                                <label class="calc-field"><span>Harga satu tabung</span><div class="currency-input"><span>Rp</span><input id="gas-cylinder-price" type="text" inputmode="numeric" placeholder="0"></div></label>
-                                <label class="calc-field"><span>Satu tabung bertahan</span><div class="value-unit"><input id="gas-lifespan" type="number" min="0" step="any" placeholder="0"><select id="gas-lifespan-unit"><option value="hour">jam</option><option value="day">hari</option></select></div></label>
-                                <label class="calc-field"><span>Dipakai per produksi</span><div class="value-unit"><input id="gas-usage-production" type="number" min="0" step="any" placeholder="0"><select id="gas-usage-unit"><option value="hour">jam</option><option value="day">hari</option></select></div></label>
+                            <div class="operation-heading"><div><h3 id="gas-title">Gas</h3></div><strong id="gas-result">Rp 0</strong></div>
+                            <div class="gas-fields">
+                                <label class="calc-field"><span>Metode perhitungan</span><select id="gas-method"><option value="direct">Biaya langsung per produksi</option><option value="usage">Berdasarkan durasi pemakaian tabung</option></select></label>
+                                <div class="gas-panel" data-gas-panel="direct">
+                                    <label class="calc-field"><span>Biaya gas per produksi</span><div class="currency-input"><span>Rp</span><input id="gas-direct-cost" type="text" inputmode="numeric" placeholder="0"></div></label>
+                                </div>
+                                <div class="gas-panel" data-gas-panel="usage" hidden>
+                                    <label class="calc-field"><span>Harga satu tabung</span><div class="currency-input"><span>Rp</span><input id="gas-cylinder-price" type="text" inputmode="numeric" placeholder="0"></div></label>
+                                    <label class="calc-field"><span>Satu tabung bertahan</span><div class="value-unit"><input id="gas-lifespan" type="number" min="0" step="any" placeholder="0"><select id="gas-lifespan-unit"><option value="hour">jam</option><option value="day">hari</option></select></div></label>
+                                    <label class="calc-field"><span>Dipakai per produksi</span><div class="value-unit"><input id="gas-usage-production" type="number" min="0" step="any" placeholder="0"><select id="gas-usage-unit"><option value="hour">jam</option><option value="day">hari</option></select></div></label>
+                                </div>
                             </div>
                         </section>
 
                         <section class="operation-block" aria-labelledby="electricity-title">
-                            <div class="operation-heading"><div><h3 id="electricity-title">Listrik</h3><p>Bagikan biaya listrik sesuai lama penggunaan dan ritme produksi.</p></div><strong id="electricity-result">Rp 0</strong></div>
+                            <div class="operation-heading"><div><h3 id="electricity-title">Listrik</h3></div><strong id="electricity-result">Rp 0</strong></div>
                             <div class="electricity-fields">
                                 <label class="calc-field electricity-cost"><span>Biaya listrik</span><div class="currency-input"><span>Rp</span><input id="electricity-cost" type="text" inputmode="numeric" placeholder="0"></div></label>
                                 <label class="calc-field electricity-duration"><span>Digunakan selama</span><div class="value-unit"><input id="electricity-duration" type="number" min="0" step="any" placeholder="0"><select id="electricity-duration-unit"><option value="hour">jam</option><option value="day">hari</option><option value="week">minggu</option><option value="month">bulan</option></select></div></label>
