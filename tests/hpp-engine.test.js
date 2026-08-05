@@ -52,6 +52,10 @@ assert.equal(estimate.perUnit, 60);
 assert.equal(HppEngine.convert(1, "kg", "g"), 1000);
 assert.equal(HppEngine.convert(1, "l", "ml"), 1000);
 assert.equal(HppEngine.convert(1, "kg", "ml"), null);
+assert.equal(HppEngine.sellingPrice(10000, 20, "profit"), 12000);
+assert.equal(HppEngine.sellingPrice(10000, 20, "revenue"), 12500);
+assert.equal(HppEngine.sellingPrice(10000, 9999, "profit"), 1009900);
+assert.equal(HppEngine.sellingPrice(10000, 100, "revenue"), null);
 
 assert.equal(HppEngine.ingredientCost({
   purchasePrice: 35000,

@@ -16,7 +16,7 @@ $requestedMode = 'easy';
     <title>Kalkulator HPP - HPPta</title>
     <link rel="icon" href="assets/images/kitalab-icon.svg?v=20260804" type="image/svg+xml">
     <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/calculator.css?v=20260805-4">
+    <link rel="stylesheet" href="assets/css/calculator.css?v=20260805-5">
 </head>
 <body class="calculator-page" data-initial-mode="<?= hpp_e($requestedMode) ?>">
     <a class="skip-link" href="#calculator-main">Lewati ke kalkulator</a>
@@ -137,14 +137,6 @@ $requestedMode = 'easy';
             </section>
 
             <aside class="summary-column" aria-label="Ringkasan perhitungan">
-                <div class="margin-card">
-                    <div class="margin-heading">
-                        <div><span class="summary-label">Margin harga jual</span><strong id="margin-value-label">0%</strong></div>
-                        <label class="margin-number" aria-label="Persentase margin"><input id="margin-input" type="number" min="0" max="9999" step="1" value="0"><span>%</span></label>
-                    </div>
-                    <input class="margin-slider" id="margin-slider" type="range" min="0" max="50" step="1" value="0" aria-label="Slider margin 0 sampai 50 persen">
-                    <div class="selling-price"><span>Harga jual</span><strong id="selling-price">Rp 0</strong></div>
-                </div>
                 <div class="summary-card">
                     <span class="summary-label">HPP per produk</span>
                     <strong class="summary-value" id="hpp-per-unit">Rp 0</strong>
@@ -155,6 +147,25 @@ $requestedMode = 'easy';
                         <div class="summary-total"><span>Total produksi</span><strong id="total-batch">Rp 0</strong></div>
                     </div>
                     <p class="summary-help" id="summary-help">Isi produk, jumlah jadi, dan resep untuk melihat HPP per produk.</p>
+                </div>
+                <div class="margin-card">
+                    <div class="margin-decoration" aria-hidden="true">%</div>
+                    <div class="margin-title-row">
+                        <div><span class="margin-eyebrow">Tentukan harga jual</span><h2>Margin keuntungan</h2></div>
+                        <span class="margin-value-badge" id="margin-value-label">0%</span>
+                    </div>
+                    <label class="margin-method"><span>Jenis margin</span><select id="margin-type"><option value="profit">Margin profit dari HPP</option><option value="revenue">Margin dari harga jual</option></select></label>
+                    <p class="margin-explanation" id="margin-explanation">Keuntungan dihitung sebagai persentase tambahan dari HPP.</p>
+                    <div class="margin-control-row">
+                        <label class="margin-number"><span>Input manual</span><div><input id="margin-input" type="number" min="0" max="9999" step="1" value="0" aria-label="Persentase margin manual"><b>%</b></div></label>
+                        <div class="margin-slider-wrap">
+                            <input class="margin-slider" id="margin-slider" type="range" min="0" max="50" step="10" value="0" list="margin-steps" aria-label="Pilihan margin 0, 10, 20, 30, 40, atau 50 persen">
+                            <datalist id="margin-steps"><option value="0"></option><option value="10"></option><option value="20"></option><option value="30"></option><option value="40"></option><option value="50"></option></datalist>
+                            <div class="margin-ticks" aria-hidden="true"><span>0</span><span>10</span><span>20</span><span>30</span><span>40</span><span>50</span></div>
+                        </div>
+                    </div>
+                    <p class="margin-warning" id="margin-warning" hidden></p>
+                    <div class="selling-price"><span>Rekomendasi harga jual</span><strong id="selling-price">Rp 0</strong></div>
                 </div>
                 <div class="data-note"><strong>Data tersimpan di perangkat ini</strong><p>Login belum diaktifkan. Jangan hapus data browser jika ingin mempertahankan perhitungan.</p></div>
             </aside>
@@ -194,7 +205,7 @@ $requestedMode = 'easy';
         </article>
     </template>
 
-    <script src="assets/js/hpp-engine.js?v=20260805-5"></script>
-    <script src="assets/js/calculator.js?v=20260805-6"></script>
+    <script src="assets/js/hpp-engine.js?v=20260805-6"></script>
+    <script src="assets/js/calculator.js?v=20260805-7"></script>
 </body>
 </html>

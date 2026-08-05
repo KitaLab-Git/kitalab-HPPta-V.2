@@ -11,7 +11,7 @@
   const defaultPackaging = () => ({ id: Date.now() + Math.random(), name: "", purchasePrice: 0, purchaseQty: 0, usedQty: 0, packingCost: 0, packingCostUnit: "production" });
   const defaultOtherOperation = () => ({ id: Date.now() + Math.random(), name: "", amount: 0, amountUnit: "production", productionCount: 0, productionUnit: "month" });
   const defaultState = () => ({
-    version: 6,
+    version: 7,
     mode: "easy",
     product: { name: "", batchYield: 1, yieldUnit: "produk", monthlyTarget: 0 },
     ingredients: [defaultIngredient()],
@@ -24,7 +24,7 @@
       otherItems: [],
     },
     costs: {},
-    pricing: { margin: 0 },
+    pricing: { margin: 0, type: "profit" },
   });
 
   const getPath = (object, path) => path.split(".").reduce((value, key) => value?.[key], object);
@@ -100,6 +100,7 @@
   const batchYield = byId("batch-yield");
   const marginSlider = byId("margin-slider");
   const marginInput = byId("margin-input");
+  const marginType = byId("margin-type");
 
   const fieldBindings = [
     ["labor-worker-count", "operations.labor.workerCount", "number"],
@@ -146,7 +147,8 @@
     const margin = Math.min(9999, Math.max(0, Number(state.pricing.margin) || 0));
     state.pricing.margin = margin;
     marginInput.value = margin;
-    marginSlider.value = Math.min(50, margin);
+    marginSlider.value = Math.min(50, Math.round(margin / 10) * 10);
+    marginType.value = state.pricing.type || "profit";
     fieldBindings.forEach(([id, path, type]) => {
       const element = byId(id);
       const value = getPath(state, path);
@@ -174,7 +176,15 @@
     byId("hpp-per-unit").textContent = rupiah(result.perUnit);
     const margin = Math.min(9999, Math.max(0, Number(state.pricing.margin) || 0));
     byId("margin-value-label").textContent = `${margin.toLocaleString("id-ID")}%`;
-    byId("selling-price").textContent = rupiah(result.perUnit * (1 + margin / 100));
+    const revenueMarginInvalid = state.pricing.type === "revenue" && margin >= 100;
+    const sellingPrice = HppEngine.sellingPrice(result.perUnit, margin, state.pricing.type);
+    byId("selling-price").textContent = revenueMarginInvalid ? "Tidak dapat dihitung" : rupiah(sellingPrice);
+    byId("margin-explanation").textContent = state.pricing.type === "revenue"
+      ? "Keuntungan dihitung sebagai bagian dari harga jual akhir. Nilainya harus di bawah 100%."
+      : "Keuntungan dihitung sebagai persentase tambahan dari HPP.";
+    const marginWarning = byId("margin-warning");
+    marginWarning.hidden = !revenueMarginInvalid;
+    marginWarning.textContent = revenueMarginInvalid ? "Margin dari harga jual harus lebih kecil dari 100%. Pilih margin profit untuk nilai 100% atau lebih." : "";
     byId("labor-result").textContent = rupiah(result.operationalBreakdown.labor);
     byId("gas-result").textContent = rupiah(result.operationalBreakdown.gas);
     byId("electricity-result").textContent = rupiah(result.operationalBreakdown.electricity);
@@ -274,11 +284,15 @@
     const margin = Math.min(9999, Math.max(0, Number(marginInput.value) || 0));
     state.pricing.margin = margin;
     marginInput.value = margin;
-    marginSlider.value = Math.min(50, margin);
+    marginSlider.value = Math.min(50, Math.round(margin / 10) * 10);
     save(); calculate();
   };
   marginInput.addEventListener("input", updateMarginInput);
   marginInput.addEventListener("change", updateMarginInput);
+  marginType.addEventListener("change", () => {
+    state.pricing.type = marginType.value;
+    save(); calculate();
+  });
   byId("reset-calculator").addEventListener("click", () => {
     if (!confirm("Hapus seluruh data perhitungan dan mulai ulang?")) return;
     state = defaultState();

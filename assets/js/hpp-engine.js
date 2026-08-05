@@ -110,6 +110,13 @@
     return { ...breakdown, total: Object.values(breakdown).reduce((sum, value) => sum + value, 0) };
   };
 
+  const sellingPrice = (hpp, marginPercent, type = "profit") => {
+    const cost = number(hpp);
+    const margin = Math.max(0, number(marginPercent));
+    if (type === "revenue") return margin < 100 ? cost / (1 - margin / 100) : null;
+    return cost * (1 + margin / 100);
+  };
+
   const calculate = (state) => {
     const ingredientResults = (state.ingredients || []).map((item) => ingredientCost(item, state.mode));
     const ingredients = ingredientResults.reduce((sum, item) => sum + item.cost, 0);
@@ -148,5 +155,5 @@
     };
   };
 
-  root.HppEngine = { calculate, convert, ingredientCost, packagingCost, allocatedCost, laborCost, gasCost, electricityCost, waterCost, otherCost, operationalCosts };
+  root.HppEngine = { calculate, convert, ingredientCost, packagingCost, allocatedCost, laborCost, gasCost, electricityCost, waterCost, otherCost, operationalCosts, sellingPrice };
 })(typeof window !== "undefined" ? window : globalThis);
