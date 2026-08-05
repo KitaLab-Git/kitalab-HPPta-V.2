@@ -11,7 +11,7 @@
   const defaultPackaging = () => ({ id: Date.now() + Math.random(), name: "", purchasePrice: 0, purchaseQty: 0, usedQty: 0, packingCost: 0, packingCostUnit: "production" });
   const defaultOtherOperation = () => ({ id: Date.now() + Math.random(), name: "", amount: 0 });
   const defaultState = () => ({
-    version: 4,
+    version: 5,
     mode: "easy",
     product: { name: "", batchYield: 1, yieldUnit: "produk", monthlyTarget: 0 },
     ingredients: [defaultIngredient()],
@@ -24,7 +24,7 @@
       otherItems: [],
     },
     costs: {},
-    pricing: {},
+    pricing: { margin: 0 },
   });
 
   const getPath = (object, path) => path.split(".").reduce((value, key) => value?.[key], object);
@@ -41,6 +41,7 @@
     if (saved) {
       if (Array.isArray(saved.ingredients)) state.ingredients = saved.ingredients;
       if (saved.product) state.product = { ...state.product, ...saved.product };
+      if (saved.pricing) state.pricing = { ...state.pricing, ...saved.pricing };
       if (Number(saved.version) >= 3) {
         const savedPackaging = Array.isArray(saved.packaging?.items) ? saved.packaging.items : [];
         state.packaging.items = savedPackaging.map((item) => ({ ...defaultPackaging(), ...item }));
@@ -95,6 +96,8 @@
   const emptyOtherOperations = byId("empty-other-operations");
   const productName = byId("product-name");
   const batchYield = byId("batch-yield");
+  const marginSlider = byId("margin-slider");
+  const marginInput = byId("margin-input");
 
   const fieldBindings = [
     ["labor-worker-count", "operations.labor.workerCount", "number"],
@@ -140,6 +143,10 @@
   function syncInputs() {
     productName.value = state.product.name || "";
     batchYield.value = state.product.batchYield > 0 ? state.product.batchYield : "";
+    const margin = Math.min(9999, Math.max(0, Number(state.pricing.margin) || 0));
+    state.pricing.margin = margin;
+    marginInput.value = margin;
+    marginSlider.value = Math.min(50, margin);
     fieldBindings.forEach(([id, path, type]) => {
       const element = byId(id);
       const value = getPath(state, path);
@@ -165,6 +172,9 @@
     byId("total-operations").textContent = rupiah(result.operations);
     byId("total-batch").textContent = rupiah(result.batch);
     byId("hpp-per-unit").textContent = rupiah(result.perUnit);
+    const margin = Math.min(9999, Math.max(0, Number(state.pricing.margin) || 0));
+    byId("margin-value-label").textContent = `${margin.toLocaleString("id-ID")}%`;
+    byId("selling-price").textContent = rupiah(result.perUnit * (1 + margin / 100));
     byId("labor-result").textContent = rupiah(result.operationalBreakdown.labor);
     byId("gas-result").textContent = rupiah(result.operationalBreakdown.gas);
     byId("electricity-result").textContent = rupiah(result.operationalBreakdown.electricity);
@@ -252,6 +262,20 @@
   byId("add-ingredient").addEventListener("click", () => { state.ingredients.push(defaultIngredient()); save(); renderIngredients(); calculate(); });
   byId("add-packaging").addEventListener("click", () => { state.packaging.items.push(defaultPackaging()); save(); renderPackaging(); calculate(); });
   byId("add-other-operation").addEventListener("click", () => { state.operations.otherItems.push(defaultOtherOperation()); save(); renderOtherOperations(); calculate(); });
+  marginSlider.addEventListener("input", () => {
+    state.pricing.margin = Number(marginSlider.value) || 0;
+    marginInput.value = state.pricing.margin;
+    save(); calculate();
+  });
+  const updateMarginInput = () => {
+    const margin = Math.min(9999, Math.max(0, Number(marginInput.value) || 0));
+    state.pricing.margin = margin;
+    marginInput.value = margin;
+    marginSlider.value = Math.min(50, margin);
+    save(); calculate();
+  };
+  marginInput.addEventListener("input", updateMarginInput);
+  marginInput.addEventListener("change", updateMarginInput);
   byId("reset-calculator").addEventListener("click", () => {
     if (!confirm("Hapus seluruh data perhitungan dan mulai ulang?")) return;
     state = defaultState();

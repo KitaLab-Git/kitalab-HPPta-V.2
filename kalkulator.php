@@ -135,6 +135,14 @@ $requestedMode = 'easy';
             </section>
 
             <aside class="summary-column" aria-label="Ringkasan perhitungan">
+                <div class="margin-card">
+                    <div class="margin-heading">
+                        <div><span class="summary-label">Margin harga jual</span><strong id="margin-value-label">0%</strong></div>
+                        <label class="margin-number" aria-label="Persentase margin"><input id="margin-input" type="number" min="0" max="9999" step="1" value="0"><span>%</span></label>
+                    </div>
+                    <input class="margin-slider" id="margin-slider" type="range" min="0" max="50" step="1" value="0" aria-label="Slider margin 0 sampai 50 persen">
+                    <div class="selling-price"><span>Harga jual</span><strong id="selling-price">Rp 0</strong></div>
+                </div>
                 <div class="summary-card">
                     <span class="summary-label">HPP per produk</span>
                     <strong class="summary-value" id="hpp-per-unit">Rp 0</strong>
@@ -184,6 +192,6 @@ $requestedMode = 'easy';
     </template>
 
     <script src="assets/js/hpp-engine.js?v=20260805-4"></script>
-    <script src="assets/js/calculator.js?v=20260805-4"></script>
+    <script src="assets/js/calculator.js?v=20260805-5"></script>
 </body>
 </html>

@@ -102,7 +102,20 @@
 .scenario-grid div { display: grid; border: 1px solid var(--line); border-radius: 12px; padding: .75rem; }
 .scenario-grid span { color: var(--muted); font-size: .68rem; }
 .scenario-grid strong { font-size: .85rem; }
-.summary-column { position: sticky; top: 96px; }
+.summary-column { position: sticky; top: 96px; display: grid; gap: .8rem; }
+.margin-card { overflow: hidden; border: 1px solid #cbd9ee; border-radius: 20px; padding: 1.15rem; background: #fff; box-shadow: 0 14px 35px rgb(16 34 69 / 9%); }
+.margin-heading { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.margin-heading > div { display: grid; gap: .2rem; }
+.margin-heading .summary-label { color: var(--muted); }
+.margin-heading strong { color: var(--primary); font-size: 1.1rem; }
+.margin-number { display: grid; grid-template-columns: minmax(54px, 72px) auto; align-items: center; overflow: hidden; border: 1px solid var(--line); border-radius: 10px; background: #fff; }
+.margin-number input { min-width: 0; width: 100%; border: 0; padding: .65rem .45rem .65rem .7rem; color: var(--ink); font: inherit; font-size: .78rem; font-weight: 750; text-align: right; }
+.margin-number span { padding-right: .65rem; color: var(--muted); font-size: .75rem; font-weight: 750; }
+.margin-number:focus-within { border-color: var(--primary); outline: 3px solid rgb(37 103 217 / 10%); }
+.margin-number input:focus { outline: 0; }
+.margin-slider { width: 100%; margin: 1rem 0 .8rem; accent-color: var(--primary); cursor: pointer; }
+.selling-price { display: flex; align-items: center; justify-content: space-between; gap: 1rem; border-top: 1px solid var(--line); padding-top: .8rem; color: var(--muted); font-size: .72rem; }
+.selling-price strong { color: var(--ink); font-size: 1rem; }
 .summary-card { overflow: hidden; border-radius: 24px; padding: 1.6rem; background: var(--ink); color: #fff; box-shadow: var(--shadow); }
 .summary-label { display: block; color: #aebbd0; font-size: .72rem; }
 .summary-value { display: block; margin: .4rem 0 1rem; font-size: 2.25rem; line-height: 1; letter-spacing: -.04em; }
@@ -116,7 +129,7 @@
 .price-result strong, .monthly-result strong { color: var(--yellow); font-size: 1.2rem; }
 .price-result small { color: #adbbd0; }
 .summary-help { margin: 1rem 0 0; color: #9eacc1; font-size: .68rem; }
-.data-note { margin-top: .8rem; border: 1px solid var(--line); border-radius: 16px; padding: 1rem; background: #fff; }
+.data-note { border: 1px solid var(--line); border-radius: 16px; padding: 1rem; background: #fff; }
 .data-note strong { font-size: .75rem; }
 .data-note p { margin: .2rem 0 0; color: var(--muted); font-size: .68rem; }
 .settings-backdrop { position: fixed; inset: 0; z-index: 50; background: rgb(16 34 69 / 45%); backdrop-filter: blur(3px); }
