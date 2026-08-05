@@ -49,15 +49,15 @@
 .mobile-label { display: block; }
 .empty-ingredients { padding: 2rem; border: 1px dashed var(--line); border-radius: 14px; text-align: center; }
 .empty-ingredients p { margin: .2rem 0 0; color: var(--muted); font-size: .78rem; }
-.packaging-row { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-areas: "package-name package-name package-price package-cost" "package-purchase package-purchase package-usage package-usage"; gap: .8rem; align-items: end; margin-top: .75rem; border: 1px solid var(--line); border-radius: 15px; padding: 1rem; background: #fbfdff; }
+.packaging-row { position: relative; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); grid-template-areas: "package-name package-name package-name package-price package-price package-cost" "package-purchase package-purchase package-usage package-usage package-packing package-packing"; gap: .8rem; align-items: end; margin-top: .75rem; border: 1px solid var(--line); border-radius: 15px; padding: 1rem; background: #fbfdff; }
 .packaging-name { grid-area: package-name; }
 .packaging-price { grid-area: package-price; }
 .packaging-purchase { grid-area: package-purchase; }
 .packaging-usage { grid-area: package-usage; }
+.packaging-packing { grid-area: package-packing; }
 .packaging-cost { grid-area: package-cost; align-self: center; padding-right: 2.3rem; text-align: right; font-size: .78rem; }
 .remove-packaging { position: absolute; right: .6rem; top: .6rem; width: 30px; height: 30px; border: 0; border-radius: 9px; background: #f3f6fa; color: #7b89a0; font-size: 1.15rem; }
 .remove-packaging:hover { background: #ffe7e7; color: #a83030; }
-.additional-packaging { margin-top: 1rem; max-width: 460px; }
 .calc-field > small { color: var(--muted); font-size: .65rem; }
 .operation-stack { display: grid; gap: .9rem; }
 .operation-block { border: 1px solid var(--line); border-radius: 16px; padding: 1rem; background: #fbfdff; }
@@ -72,6 +72,21 @@
 .value-unit select { border-left: 1px solid var(--line); }
 .value-unit:focus-within { border-color: var(--primary); outline: 3px solid rgb(37 103 217 / 10%); }
 .value-unit input:focus, .value-unit select:focus { outline: 0; }
+.currency-select { display: grid; grid-template-columns: auto minmax(70px, 1fr) minmax(105px, auto); overflow: hidden; border: 1px solid var(--line); border-radius: 11px; background: #fff; }
+.currency-select > span { align-self: center; padding: 0 .65rem; color: var(--muted); font-size: .72rem; font-weight: 750; }
+.currency-select input, .currency-select select { border: 0; border-radius: 0; }
+.currency-select select { border-left: 1px solid var(--line); padding-inline: .45rem; }
+.currency-select:focus-within { border-color: var(--primary); outline: 3px solid rgb(37 103 217 / 10%); }
+.currency-select input:focus, .currency-select select:focus { outline: 0; }
+.electricity-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-areas: "electricity-cost electricity-duration" "electricity-productions electricity-productions"; gap: .8rem; }
+.electricity-cost { grid-area: electricity-cost; }
+.electricity-duration { grid-area: electricity-duration; }
+.electricity-productions { grid-area: electricity-productions; max-width: calc(50% - .4rem); }
+.other-operation-list { display: grid; gap: .65rem; margin-top: .8rem; }
+.other-operation-row { position: relative; display: grid; grid-template-columns: 1.2fr 1fr 32px; gap: .7rem; align-items: end; border: 1px solid var(--line); border-radius: 13px; padding: .8rem; background: #fff; }
+.remove-other-operation { width: 30px; height: 30px; border: 0; border-radius: 9px; background: #f3f6fa; color: #7b89a0; font-size: 1.15rem; }
+.remove-other-operation:hover { background: #ffe7e7; color: #a83030; }
+.empty-operations { margin-top: .75rem; border: 1px dashed var(--line); border-radius: 12px; padding: .8rem; color: var(--muted); font-size: .7rem; text-align: center; }
 .estimate-guide { display: flex; flex-wrap: wrap; gap: .55rem; }
 .estimate-guide span { border-radius: 999px; padding: .5rem .7rem; background: var(--primary-soft); color: var(--primary-dark); font-size: .7rem; font-weight: 700; }
 .template-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: .7rem; }
@@ -126,8 +141,12 @@
   .ingredient-row { grid-template-columns: 1fr; grid-template-areas: "name" "price" "purchase" "usage" "cost" "warning"; gap: .7rem; padding: 1rem; }
   .ingredient-cost { text-align: left; color: var(--primary); }
   .remove-ingredient { position: absolute; right: .6rem; top: .6rem; }
-  .packaging-row { grid-template-columns: 1fr; grid-template-areas: "package-name" "package-price" "package-purchase" "package-usage" "package-cost"; gap: .7rem; }
+  .packaging-row { grid-template-columns: 1fr; grid-template-areas: "package-name" "package-price" "package-purchase" "package-usage" "package-packing" "package-cost"; gap: .7rem; }
   .packaging-cost { padding-right: 0; text-align: left; color: var(--primary); }
+  .electricity-fields { grid-template-columns: 1fr; grid-template-areas: "electricity-cost" "electricity-duration" "electricity-productions"; }
+  .electricity-productions { max-width: none; }
+  .other-operation-row { grid-template-columns: 1fr; padding-right: 3rem; }
+  .remove-other-operation { position: absolute; right: .6rem; top: .6rem; }
 }
 
 @media (max-width: 640px) {

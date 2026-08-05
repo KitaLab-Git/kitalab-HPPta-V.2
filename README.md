@@ -10,8 +10,8 @@ HPPta V2 adalah kalkulator Harga Pokok Produksi dari KitaLab. Pada tahap pengemb
 - Satu mode kalkulator HPP berbasis resep.
 - Section Produk untuk nama produk dan jumlah jadi.
 - Section Resep untuk menghitung biaya bahan.
-- Section Kemasan opsional untuk pembelian per pcs, pemakaian, dan biaya packaging tambahan.
-- Section Biaya Operasional opsional dengan metode langsung atau alokasi.
+- Section Kemasan opsional dengan biaya material dan biaya packing pada setiap item kemasan.
+- Section Biaya Operasional opsional dengan tenaga kerja, gas, listrik, air, dan daftar biaya lainnya.
 - Penyimpanan sementara menggunakan browser perangkat.
 - Tanpa login, register, dan database pada tahap pengembangan ini.
 
@@ -57,12 +57,12 @@ Pengguna menekan **Coba Kalkulator** dan langsung masuk ke kalkulator. URL klasi
 
 - Total HPP resep berasal dari biaya seluruh bahan yang digunakan.
 - HPP per produk adalah total HPP resep dibagi jumlah jadi.
-- Kemasan dihitung dari `harga pembelian ÷ isi pembelian × jumlah dipakai`.
-- Tenaga kerja dapat dihitung per produksi, hari, minggu, atau bulan berdasarkan jumlah produksi dalam periode.
+- Kemasan dihitung dari `harga pembelian ÷ isi pembelian × jumlah dipakai`, lalu ditambah biaya packing item tersebut per produksi atau per pcs.
+- Tenaga kerja dapat dihitung per produksi, hari, minggu, atau bulan. Label jumlah produksi mengikuti satuan yang dipilih, misalnya "Jumlah produksi dalam sebulan".
 - Gas dapat diisi langsung atau dihitung dari harga tabung, lama tabung bertahan, dan durasi pemakaian.
-- Listrik dapat diisi langsung atau dialokasikan dari tagihan dan jam penggunaan.
-- Air dapat diisi langsung atau dialokasikan dari tagihan dan jumlah produksi.
-- Biaya operasional lain tetap dapat diisi langsung per produksi.
+- Listrik dialokasikan dari biaya, lama biaya tersebut digunakan, serta jumlah produksi per jam, hari, minggu, atau bulan.
+- Air dapat diisi langsung atau dialokasikan dari tagihan dan jumlah produksi dengan label satuan waktu yang jelas.
+- Biaya operasional lainnya dapat ditambahkan sebagai beberapa item bernama dengan nominal per produksi.
 - Semua biaya opsional bernilai Rp0 jika dikosongkan.
 - Biaya bahan dihitung dari harga dan isi pembelian terhadap jumlah pemakaian.
 - Data sementara disimpan di browser perangkat pengguna.

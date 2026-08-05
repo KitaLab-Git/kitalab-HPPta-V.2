@@ -68,7 +68,6 @@ $requestedMode = 'easy';
                     </div>
                     <div id="packaging-list" class="packaging-list"></div>
                     <div class="empty-ingredients" id="empty-packaging"><strong>Belum ada kemasan</strong><p>Bagian ini boleh dilewati jika produk tidak memakai kemasan.</p></div>
-                    <label class="calc-field additional-packaging"><span>Biaya packaging tambahan per produksi</span><div class="currency-input"><span>Rp</span><input id="additional-packaging-cost" type="text" inputmode="numeric" placeholder="0"></div><small>Contoh: sablon, cetak label, atau jasa pengemasan.</small></label>
                 </section>
 
                 <section class="calc-card">
@@ -83,7 +82,7 @@ $requestedMode = 'easy';
                                 <label class="calc-field"><span>Jumlah tenaga kerja</span><input id="labor-worker-count" type="number" min="0" step="1" placeholder="0"></label>
                                 <label class="calc-field"><span>Biaya per tenaga kerja</span><div class="currency-input"><span>Rp</span><input id="labor-cost-per-worker" type="text" inputmode="numeric" placeholder="0"></div></label>
                                 <label class="calc-field"><span>Satuan biaya</span><select id="labor-period"><option value="production">Per produksi</option><option value="day">Per hari</option><option value="week">Per minggu</option><option value="month">Per bulan</option></select></label>
-                                <label class="calc-field" id="labor-production-field" hidden><span>Jumlah produksi dalam periode</span><input id="labor-productions-per-period" type="number" min="0" step="1" placeholder="Contoh: 100"></label>
+                                <label class="calc-field" id="labor-production-field" hidden><span id="labor-productions-label">Jumlah produksi dalam sebulan</span><input id="labor-productions-per-period" type="number" min="0" step="1" placeholder="Contoh: 100"></label>
                             </div>
                         </section>
 
@@ -101,16 +100,11 @@ $requestedMode = 'easy';
                         </section>
 
                         <section class="operation-block" aria-labelledby="electricity-title">
-                            <div class="operation-heading"><div><h3 id="electricity-title">Listrik</h3><p>Masukkan langsung atau alokasikan tagihan berdasarkan jam penggunaan.</p></div><strong id="electricity-result">Rp 0</strong></div>
-                            <label class="calc-field method-field"><span>Metode perhitungan</span><select id="electricity-method"><option value="direct">Biaya langsung per produksi</option><option value="allocation">Alokasi tagihan berdasarkan durasi</option></select></label>
-                            <div class="form-grid operation-grid" data-electricity-panel="direct">
-                                <label class="calc-field"><span>Biaya listrik per produksi</span><div class="currency-input"><span>Rp</span><input id="electricity-direct-cost" type="text" inputmode="numeric" placeholder="0"></div></label>
-                            </div>
-                            <div class="form-grid operation-grid" data-electricity-panel="allocation" hidden>
-                                <label class="calc-field"><span>Total tagihan listrik</span><div class="currency-input"><span>Rp</span><input id="electricity-bill" type="text" inputmode="numeric" placeholder="0"></div></label>
-                                <label class="calc-field"><span>Periode tagihan</span><select id="electricity-period"><option value="day">Harian</option><option value="week">Mingguan</option><option value="month">Bulanan</option></select></label>
-                                <label class="calc-field"><span>Total jam penggunaan dalam periode</span><div class="input-suffix"><input id="electricity-total-hours" type="number" min="0" step="any" placeholder="0"><span>jam</span></div></label>
-                                <label class="calc-field"><span>Digunakan per produksi</span><div class="input-suffix"><input id="electricity-hours-production" type="number" min="0" step="any" placeholder="0"><span>jam</span></div></label>
+                            <div class="operation-heading"><div><h3 id="electricity-title">Listrik</h3><p>Bagikan biaya listrik sesuai lama penggunaan dan ritme produksi.</p></div><strong id="electricity-result">Rp 0</strong></div>
+                            <div class="electricity-fields">
+                                <label class="calc-field electricity-cost"><span>Biaya listrik</span><div class="currency-input"><span>Rp</span><input id="electricity-cost" type="text" inputmode="numeric" placeholder="0"></div></label>
+                                <label class="calc-field electricity-duration"><span>Digunakan selama</span><div class="value-unit"><input id="electricity-duration" type="number" min="0" step="any" placeholder="0"><select id="electricity-duration-unit"><option value="hour">jam</option><option value="day">hari</option><option value="week">minggu</option><option value="month">bulan</option></select></div></label>
+                                <label class="calc-field electricity-productions"><span>Jumlah produksi per</span><div class="value-unit"><input id="electricity-production-count" type="number" min="0" step="any" placeholder="0"><select id="electricity-production-unit"><option value="hour">jam</option><option value="day">hari</option><option value="week">minggu</option><option value="month">bulan</option></select></div></label>
                             </div>
                         </section>
 
@@ -122,14 +116,16 @@ $requestedMode = 'easy';
                             </div>
                             <div class="form-grid operation-grid" data-water-panel="allocation" hidden>
                                 <label class="calc-field"><span>Total tagihan air</span><div class="currency-input"><span>Rp</span><input id="water-bill" type="text" inputmode="numeric" placeholder="0"></div></label>
-                                <label class="calc-field"><span>Periode tagihan</span><select id="water-period"><option value="day">Harian</option><option value="week">Mingguan</option><option value="month">Bulanan</option></select></label>
-                                <label class="calc-field"><span>Jumlah produksi dalam periode</span><input id="water-productions-period" type="number" min="0" step="1" placeholder="Contoh: 100"></label>
+                                <label class="calc-field"><span>Satuan tagihan</span><select id="water-period"><option value="day">Per hari</option><option value="week">Per minggu</option><option value="month">Per bulan</option></select></label>
+                                <label class="calc-field"><span id="water-productions-label">Jumlah produksi per bulan</span><input id="water-productions-period" type="number" min="0" step="1" placeholder="Contoh: 100"></label>
                             </div>
                         </section>
 
                         <section class="operation-block" aria-labelledby="other-title">
-                            <div class="operation-heading"><div><h3 id="other-title">Biaya operasional lainnya</h3><p>Masukkan total biaya lain untuk satu kali produksi.</p></div><strong id="other-result">Rp 0</strong></div>
-                            <label class="calc-field"><span>Biaya lainnya per produksi</span><div class="currency-input"><span>Rp</span><input id="other-operation-cost" type="text" inputmode="numeric" placeholder="0"></div></label>
+                            <div class="operation-heading"><div><h3 id="other-title">Biaya operasional lainnya</h3><p>Tambahkan nama dan nominal setiap biaya lain untuk satu produksi.</p></div><strong id="other-result">Rp 0</strong></div>
+                            <button class="button button-secondary" id="add-other-operation" type="button">+ Tambah biaya lainnya</button>
+                            <div id="other-operation-list" class="other-operation-list"></div>
+                            <div class="empty-operations" id="empty-other-operations"><span>Belum ada biaya lainnya.</span></div>
                         </section>
                     </div>
                 </section>
@@ -171,12 +167,21 @@ $requestedMode = 'easy';
             <label class="calc-field packaging-price"><span>Harga pembelian</span><div class="currency-input"><span>Rp</span><input data-packaging-field="purchasePrice" type="text" inputmode="numeric" placeholder="0"></div></label>
             <label class="calc-field packaging-purchase"><span>Isi pembelian</span><div class="input-suffix"><input data-packaging-field="purchaseQty" type="number" min="0" step="any" placeholder="0"><span>pcs</span></div></label>
             <label class="calc-field packaging-usage"><span>Dipakai per produksi</span><div class="input-suffix"><input data-packaging-field="usedQty" type="number" min="0" step="any" placeholder="0"><span>pcs</span></div></label>
+            <label class="calc-field packaging-packing"><span>Biaya packing</span><div class="currency-select"><span>Rp</span><input data-packaging-field="packingCost" type="text" inputmode="numeric" placeholder="0"><select data-packaging-field="packingCostUnit"><option value="production">per produksi</option><option value="piece">per pcs</option></select></div></label>
             <strong class="packaging-cost" data-packaging-cost>Rp 0</strong>
             <button class="remove-packaging" type="button" aria-label="Hapus kemasan">×</button>
         </article>
     </template>
 
-    <script src="assets/js/hpp-engine.js?v=20260805-3"></script>
-    <script src="assets/js/calculator.js?v=20260805-3"></script>
+    <template id="other-operation-template">
+        <article class="other-operation-row">
+            <label class="calc-field"><span>Nama biaya</span><input data-other-field="name" type="text" maxlength="60" placeholder="Contoh: Transportasi"></label>
+            <label class="calc-field"><span>Nominal per produksi</span><div class="currency-input"><span>Rp</span><input data-other-field="amount" type="text" inputmode="numeric" placeholder="0"></div></label>
+            <button class="remove-other-operation" type="button" aria-label="Hapus biaya lainnya">×</button>
+        </article>
+    </template>
+
+    <script src="assets/js/hpp-engine.js?v=20260805-4"></script>
+    <script src="assets/js/calculator.js?v=20260805-4"></script>
 </body>
 </html>

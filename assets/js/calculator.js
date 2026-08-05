@@ -8,19 +8,20 @@
   const rupiahInput = (value) => value ? Number(value).toLocaleString("id-ID") : "";
 
   const defaultIngredient = () => ({ id: Date.now() + Math.random(), name: "", purchasePrice: 0, purchaseQty: 0, purchaseUnit: "g", usedQty: 0, usedUnit: "g" });
-  const defaultPackaging = () => ({ id: Date.now() + Math.random(), name: "", purchasePrice: 0, purchaseQty: 0, usedQty: 0 });
+  const defaultPackaging = () => ({ id: Date.now() + Math.random(), name: "", purchasePrice: 0, purchaseQty: 0, usedQty: 0, packingCost: 0, packingCostUnit: "production" });
+  const defaultOtherOperation = () => ({ id: Date.now() + Math.random(), name: "", amount: 0 });
   const defaultState = () => ({
-    version: 3,
+    version: 4,
     mode: "easy",
     product: { name: "", batchYield: 1, yieldUnit: "produk", monthlyTarget: 0 },
     ingredients: [defaultIngredient()],
-    packaging: { items: [], additionalCost: 0 },
+    packaging: { items: [] },
     operations: {
       labor: { workerCount: 0, costPerWorker: 0, period: "production", productionsPerPeriod: 0 },
       gas: { method: "direct", directCost: 0, cylinderPrice: 0, lifespan: 0, lifespanUnit: "hour", usagePerProduction: 0, usageUnit: "hour" },
-      electricity: { method: "direct", directCost: 0, billAmount: 0, period: "month", totalUsageHours: 0, hoursPerProduction: 0 },
+      electricity: { cost: 0, duration: 1, durationUnit: "month", productionCount: 0, productionUnit: "month" },
       water: { method: "direct", directCost: 0, billAmount: 0, period: "month", productionsPerPeriod: 0 },
-      other: 0,
+      otherItems: [],
     },
     costs: {},
     pricing: {},
@@ -41,20 +42,44 @@
       if (Array.isArray(saved.ingredients)) state.ingredients = saved.ingredients;
       if (saved.product) state.product = { ...state.product, ...saved.product };
       if (Number(saved.version) >= 3) {
-        state.packaging = { ...state.packaging, ...(saved.packaging || {}), items: Array.isArray(saved.packaging?.items) ? saved.packaging.items : [] };
+        const savedPackaging = Array.isArray(saved.packaging?.items) ? saved.packaging.items : [];
+        state.packaging.items = savedPackaging.map((item) => ({ ...defaultPackaging(), ...item }));
+        if (Number(saved.version) === 3 && Number(saved.packaging?.additionalCost) > 0) {
+          state.packaging.items.push({ ...defaultPackaging(), name: "Biaya packaging tambahan", packingCost: Number(saved.packaging.additionalCost), packingCostUnit: "production" });
+        }
         state.operations = {
           ...state.operations,
           ...(saved.operations || {}),
           labor: { ...state.operations.labor, ...(saved.operations?.labor || {}) },
           gas: { ...state.operations.gas, ...(saved.operations?.gas || {}) },
-          electricity: { ...state.operations.electricity, ...(saved.operations?.electricity || {}) },
           water: { ...state.operations.water, ...(saved.operations?.water || {}) },
         };
+        if (Number(saved.version) >= 4) {
+          state.operations.electricity = { ...state.operations.electricity, ...(saved.operations?.electricity || {}) };
+          state.operations.otherItems = Array.isArray(saved.operations?.otherItems) ? saved.operations.otherItems : [];
+        } else {
+          const oldElectricity = saved.operations?.electricity || {};
+          if (oldElectricity.method === "allocation") {
+            state.operations.electricity.cost = Number(oldElectricity.billAmount) || 0;
+            state.operations.electricity.duration = 1;
+            state.operations.electricity.durationUnit = oldElectricity.period || "month";
+            state.operations.electricity.productionCount = Number(oldElectricity.hoursPerProduction) > 0 ? (Number(oldElectricity.totalUsageHours) || 0) / Number(oldElectricity.hoursPerProduction) : 0;
+            state.operations.electricity.productionUnit = oldElectricity.period || "month";
+          } else {
+            state.operations.electricity.cost = Number(oldElectricity.directCost) || 0;
+            state.operations.electricity.duration = 1;
+            state.operations.electricity.durationUnit = "day";
+            state.operations.electricity.productionCount = state.operations.electricity.cost ? 1 : 0;
+            state.operations.electricity.productionUnit = "day";
+          }
+          if (Number(saved.operations?.other) > 0) state.operations.otherItems = [{ ...defaultOtherOperation(), name: "Biaya lainnya", amount: Number(saved.operations.other) }];
+        }
       } else if (Number(saved.version) >= 2 && saved.costs) {
-        state.packaging.additionalCost = Number(saved.costs.packaging) || 0;
+        if (Number(saved.costs.packaging) > 0) state.packaging.items = [{ ...defaultPackaging(), name: "Biaya packaging tambahan", packingCost: Number(saved.costs.packaging), packingCostUnit: "production" }];
         state.operations.labor.costPerWorker = Number(saved.costs.labor) || 0;
         state.operations.labor.workerCount = state.operations.labor.costPerWorker ? 1 : 0;
-        state.operations.other = (Number(saved.costs.utilities) || 0) + (Number(saved.costs.overhead) || 0);
+        const oldOther = (Number(saved.costs.utilities) || 0) + (Number(saved.costs.overhead) || 0);
+        if (oldOther > 0) state.operations.otherItems = [{ ...defaultOtherOperation(), name: "Biaya lainnya", amount: oldOther }];
       }
     }
   } catch (_) {}
@@ -65,6 +90,9 @@
   const packagingList = byId("packaging-list");
   const packagingTemplate = byId("packaging-template");
   const emptyPackaging = byId("empty-packaging");
+  const otherOperationList = byId("other-operation-list");
+  const otherOperationTemplate = byId("other-operation-template");
+  const emptyOtherOperations = byId("empty-other-operations");
   const productName = byId("product-name");
   const batchYield = byId("batch-yield");
 
@@ -80,18 +108,16 @@
     ["gas-lifespan-unit", "operations.gas.lifespanUnit", "select"],
     ["gas-usage-production", "operations.gas.usagePerProduction", "number"],
     ["gas-usage-unit", "operations.gas.usageUnit", "select"],
-    ["electricity-method", "operations.electricity.method", "select"],
-    ["electricity-direct-cost", "operations.electricity.directCost", "currency"],
-    ["electricity-bill", "operations.electricity.billAmount", "currency"],
-    ["electricity-period", "operations.electricity.period", "select"],
-    ["electricity-total-hours", "operations.electricity.totalUsageHours", "number"],
-    ["electricity-hours-production", "operations.electricity.hoursPerProduction", "number"],
+    ["electricity-cost", "operations.electricity.cost", "currency"],
+    ["electricity-duration", "operations.electricity.duration", "number"],
+    ["electricity-duration-unit", "operations.electricity.durationUnit", "select"],
+    ["electricity-production-count", "operations.electricity.productionCount", "number"],
+    ["electricity-production-unit", "operations.electricity.productionUnit", "select"],
     ["water-method", "operations.water.method", "select"],
     ["water-direct-cost", "operations.water.directCost", "currency"],
     ["water-bill", "operations.water.billAmount", "currency"],
     ["water-period", "operations.water.period", "select"],
     ["water-productions-period", "operations.water.productionsPerPeriod", "number"],
-    ["other-operation-cost", "operations.other", "currency"],
   ];
 
   function save() {
@@ -103,15 +129,17 @@
 
   function syncPanels() {
     byId("labor-production-field").hidden = state.operations.labor.period === "production";
+    const laborLabels = { day: "Jumlah produksi dalam sehari", week: "Jumlah produksi dalam seminggu", month: "Jumlah produksi dalam sebulan" };
+    byId("labor-productions-label").textContent = laborLabels[state.operations.labor.period] || "Jumlah produksi";
     document.querySelectorAll("[data-gas-panel]").forEach((panel) => panel.hidden = panel.dataset.gasPanel !== state.operations.gas.method);
-    document.querySelectorAll("[data-electricity-panel]").forEach((panel) => panel.hidden = panel.dataset.electricityPanel !== state.operations.electricity.method);
     document.querySelectorAll("[data-water-panel]").forEach((panel) => panel.hidden = panel.dataset.waterPanel !== state.operations.water.method);
+    const waterLabels = { day: "Jumlah produksi per hari", week: "Jumlah produksi per minggu", month: "Jumlah produksi per bulan" };
+    byId("water-productions-label").textContent = waterLabels[state.operations.water.period] || "Jumlah produksi";
   }
 
   function syncInputs() {
     productName.value = state.product.name || "";
     batchYield.value = state.product.batchYield > 0 ? state.product.batchYield : "";
-    byId("additional-packaging-cost").value = rupiahInput(state.packaging.additionalCost);
     fieldBindings.forEach(([id, path, type]) => {
       const element = byId(id);
       const value = getPath(state, path);
@@ -147,13 +175,13 @@
       : "Isi produk, jumlah jadi, dan resep untuk melihat HPP per produk.";
   }
 
-  function bindRowFields(row, item, selector, priceKey) {
+  function bindRowFields(row, item, selector, datasetName, currencyKeys = []) {
     row.querySelectorAll(selector).forEach((input) => {
-      const key = selector === "[data-field]" ? input.dataset.field : input.dataset.packagingField;
-      input.value = key === priceKey ? rupiahInput(item[key]) : (item[key] ?? "");
+      const key = input.dataset[datasetName];
+      input.value = currencyKeys.includes(key) ? rupiahInput(item[key]) : (item[key] ?? "");
       const update = () => {
-        item[key] = key === priceKey ? digits(input.value) : (input.type === "number" ? Number(input.value) || 0 : input.value);
-        if (key === priceKey) input.value = rupiahInput(item[key]);
+        item[key] = currencyKeys.includes(key) ? digits(input.value) : (input.type === "number" ? Number(input.value) || 0 : input.value);
+        if (currencyKeys.includes(key)) input.value = rupiahInput(item[key]);
         save();
         calculate();
       };
@@ -168,7 +196,7 @@
     state.ingredients.forEach((ingredient) => {
       const fragment = ingredientTemplate.content.cloneNode(true);
       const row = fragment.querySelector(".ingredient-row");
-      bindRowFields(row, ingredient, "[data-field]", "purchasePrice");
+      bindRowFields(row, ingredient, "[data-field]", "field", ["purchasePrice"]);
       row.querySelector(".remove-ingredient").addEventListener("click", () => {
         state.ingredients = state.ingredients.filter((item) => item.id !== ingredient.id);
         save(); renderIngredients(); calculate();
@@ -183,7 +211,7 @@
     state.packaging.items.forEach((packaging) => {
       const fragment = packagingTemplate.content.cloneNode(true);
       const row = fragment.querySelector(".packaging-row");
-      bindRowFields(row, packaging, "[data-packaging-field]", "purchasePrice");
+      bindRowFields(row, packaging, "[data-packaging-field]", "packagingField", ["purchasePrice", "packingCost"]);
       row.querySelector(".remove-packaging").addEventListener("click", () => {
         state.packaging.items = state.packaging.items.filter((item) => item.id !== packaging.id);
         save(); renderPackaging(); calculate();
@@ -192,14 +220,23 @@
     });
   }
 
+  function renderOtherOperations() {
+    otherOperationList.innerHTML = "";
+    emptyOtherOperations.hidden = state.operations.otherItems.length > 0;
+    state.operations.otherItems.forEach((operation) => {
+      const fragment = otherOperationTemplate.content.cloneNode(true);
+      const row = fragment.querySelector(".other-operation-row");
+      bindRowFields(row, operation, "[data-other-field]", "otherField", ["amount"]);
+      row.querySelector(".remove-other-operation").addEventListener("click", () => {
+        state.operations.otherItems = state.operations.otherItems.filter((item) => item.id !== operation.id);
+        save(); renderOtherOperations(); calculate();
+      });
+      otherOperationList.appendChild(fragment);
+    });
+  }
+
   productName.addEventListener("input", () => { state.product.name = productName.value; save(); calculate(); });
   batchYield.addEventListener("input", () => { state.product.batchYield = Number(batchYield.value) || 0; save(); calculate(); });
-  byId("additional-packaging-cost").addEventListener("input", (event) => {
-    state.packaging.additionalCost = digits(event.target.value);
-    event.target.value = rupiahInput(state.packaging.additionalCost);
-    save(); calculate();
-  });
-
   fieldBindings.forEach(([id, path, type]) => {
     const element = byId(id);
     const eventName = type === "select" ? "change" : "input";
@@ -214,16 +251,18 @@
 
   byId("add-ingredient").addEventListener("click", () => { state.ingredients.push(defaultIngredient()); save(); renderIngredients(); calculate(); });
   byId("add-packaging").addEventListener("click", () => { state.packaging.items.push(defaultPackaging()); save(); renderPackaging(); calculate(); });
+  byId("add-other-operation").addEventListener("click", () => { state.operations.otherItems.push(defaultOtherOperation()); save(); renderOtherOperations(); calculate(); });
   byId("reset-calculator").addEventListener("click", () => {
     if (!confirm("Hapus seluruh data perhitungan dan mulai ulang?")) return;
     state = defaultState();
-    save(); syncInputs(); renderIngredients(); renderPackaging(); calculate();
+    save(); syncInputs(); renderIngredients(); renderPackaging(); renderOtherOperations(); calculate();
   });
 
   document.body.dataset.mode = "easy";
   syncInputs();
   renderIngredients();
   renderPackaging();
+  renderOtherOperations();
   calculate();
   save();
 })();

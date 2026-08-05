@@ -44,7 +44,11 @@
     const purchasePrice = number(item.purchasePrice);
     const purchaseQty = number(item.purchaseQty);
     const usedQty = number(item.usedQty);
-    return purchasePrice && purchaseQty && usedQty ? purchasePrice * usedQty / purchaseQty : 0;
+    const material = purchasePrice && purchaseQty && usedQty ? purchasePrice * usedQty / purchaseQty : 0;
+    const packing = item.packingCostUnit === "piece"
+      ? number(item.packingCost) * usedQty
+      : number(item.packingCost);
+    return material + packing;
   };
 
   const laborCost = (labor = {}) => {
@@ -55,7 +59,10 @@
     return productions ? total / productions : 0;
   };
 
-  const durationInHours = (value, unit) => number(value) * (unit === "day" ? 24 : 1);
+  const durationInHours = (value, unit) => {
+    const factors = { hour: 1, day: 24, week: 168, month: 720 };
+    return number(value) * (factors[unit] || 1);
+  };
 
   const gasCost = (gas = {}) => {
     if (gas.method !== "usage") return number(gas.directCost);
@@ -65,9 +72,12 @@
   };
 
   const electricityCost = (electricity = {}) => {
-    if (electricity.method !== "allocation") return number(electricity.directCost);
-    const totalHours = number(electricity.totalUsageHours);
-    return totalHours ? number(electricity.billAmount) * number(electricity.hoursPerProduction) / totalHours : 0;
+    const coveredHours = durationInHours(electricity.duration, electricity.durationUnit);
+    const productionUnitHours = durationInHours(1, electricity.productionUnit);
+    const productions = productionUnitHours
+      ? number(electricity.productionCount) * coveredHours / productionUnitHours
+      : 0;
+    return productions ? number(electricity.cost) / productions : 0;
   };
 
   const waterCost = (water = {}) => {
@@ -77,12 +87,15 @@
   };
 
   const operationalCosts = (operations = {}) => {
+    const otherItems = Array.isArray(operations.otherItems) ? operations.otherItems : [];
     const breakdown = {
       labor: laborCost(operations.labor),
       gas: gasCost(operations.gas),
       electricity: electricityCost(operations.electricity),
       water: waterCost(operations.water),
-      other: number(operations.other),
+      other: otherItems.length
+        ? otherItems.reduce((sum, item) => sum + number(item.amount), 0)
+        : number(operations.other),
     };
     return { ...breakdown, total: Object.values(breakdown).reduce((sum, value) => sum + value, 0) };
   };
