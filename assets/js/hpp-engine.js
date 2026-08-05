@@ -44,9 +44,10 @@
     const ingredientResults = (state.ingredients || []).map((item) => ingredientCost(item, state.mode));
     const ingredients = ingredientResults.reduce((sum, item) => sum + item.cost, 0);
     const waste = state.mode === "professional" ? ingredients * Math.min(number(state.costs?.wastePercent), 100) / 100 : 0;
+    const operationalKeys = ["labor", "packaging", "utilities", "overhead"];
     const extraKeys = state.mode === "professional"
-      ? ["labor", "packaging", "utilities", "overhead", "depreciation"]
-      : state.mode === "simulation" ? ["labor", "packaging", "utilities", "overhead"] : [];
+      ? [...operationalKeys, "depreciation"]
+      : ["easy", "simulation"].includes(state.mode) ? operationalKeys : [];
     const extras = extraKeys
       .reduce((sum, key) => sum + number(state.costs?.[key]), 0);
     const batch = ingredients + waste + extras;

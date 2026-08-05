@@ -30,9 +30,13 @@ assert.equal(professional.perUnit, 2050);
 assert.equal(professional.recommendedPrice, 2562.5);
 
 const easy = HppEngine.calculate({ ...base, mode: "easy" });
-assert.equal(easy.extras, 0, "Mode Mudah tidak menghitung biaya profesional yang tersembunyi");
+assert.equal(easy.extras, 15000, "Mode tunggal menghitung biaya operasional yang diisi");
 assert.equal(easy.waste, 0);
-assert.equal(easy.perUnit, 500);
+assert.equal(easy.perUnit, 2000);
+
+const easyWithoutOperations = HppEngine.calculate({ ...base, mode: "easy", costs: {} });
+assert.equal(easyWithoutOperations.extras, 0, "Biaya operasional boleh dikosongkan");
+assert.equal(easyWithoutOperations.perUnit, 500);
 
 const simulation = HppEngine.calculate({ ...base, mode: "simulation" });
 assert.equal(simulation.extras, 15000);

@@ -16,7 +16,7 @@ $requestedMode = 'easy';
     <title>Kalkulator HPP - HPPta</title>
     <link rel="icon" href="assets/images/kitalab-icon.svg?v=20260804" type="image/svg+xml">
     <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/calculator.css?v=20260805-1">
+    <link rel="stylesheet" href="assets/css/calculator.css?v=20260805-2">
 </head>
 <body class="calculator-page" data-initial-mode="<?= hpp_e($requestedMode) ?>">
     <a class="skip-link" href="#calculator-main">Lewati ke kalkulator</a>
@@ -61,6 +61,18 @@ $requestedMode = 'easy';
                     <div class="empty-ingredients" id="empty-ingredients" hidden><strong>Belum ada bahan</strong><p>Tambahkan bahan pertama untuk mulai menghitung.</p></div>
                 </section>
 
+                <section class="calc-card">
+                    <div class="calc-card-heading">
+                        <div><span class="step-label">03 · Biaya operasional</span><h2>Biaya tambahan produksi <small class="optional-label">Opsional</small></h2><p>Lewati bagian ini jika belum ingin memasukkan biaya operasional. Kolom kosong dihitung Rp0.</p></div>
+                    </div>
+                    <div class="form-grid cost-grid">
+                        <label class="calc-field"><span>Tenaga kerja per produksi</span><div class="currency-input"><span>Rp</span><input id="labor-cost" type="text" inputmode="numeric" placeholder="0"></div></label>
+                        <label class="calc-field"><span>Kemasan per produksi</span><div class="currency-input"><span>Rp</span><input id="packaging-cost" type="text" inputmode="numeric" placeholder="0"></div></label>
+                        <label class="calc-field"><span>Gas, listrik, dan air</span><div class="currency-input"><span>Rp</span><input id="utilities-cost" type="text" inputmode="numeric" placeholder="0"></div></label>
+                        <label class="calc-field"><span>Biaya operasional lainnya</span><div class="currency-input"><span>Rp</span><input id="overhead-cost" type="text" inputmode="numeric" placeholder="0"></div></label>
+                    </div>
+                </section>
+
             </section>
 
             <aside class="summary-column" aria-label="Ringkasan perhitungan">
@@ -69,6 +81,7 @@ $requestedMode = 'easy';
                     <strong class="summary-value" id="hpp-per-unit">Rp 0</strong>
                     <div class="summary-breakdown">
                         <div><span>Total bahan</span><strong id="total-ingredients">Rp 0</strong></div>
+                        <div><span>Biaya operasional</span><strong id="total-extras">Rp 0</strong></div>
                         <div class="summary-total"><span>Total resep</span><strong id="total-batch">Rp 0</strong></div>
                     </div>
                     <p class="summary-help" id="summary-help">Isi produk, jumlah jadi, dan resep untuk melihat HPP per produk.</p>
@@ -90,7 +103,7 @@ $requestedMode = 'easy';
         </article>
     </template>
 
-    <script src="assets/js/hpp-engine.js?v=20260804-1"></script>
-    <script src="assets/js/calculator.js?v=20260805-1"></script>
+    <script src="assets/js/hpp-engine.js?v=20260805-2"></script>
+    <script src="assets/js/calculator.js?v=20260805-2"></script>
 </body>
 </html>

@@ -17,6 +17,7 @@
 .calc-card { margin-bottom: 1rem; border: 1px solid var(--line); border-radius: 22px; padding: 1.5rem; background: #fff; box-shadow: 0 10px 32px rgb(24 73 148 / 7%); }
 .calc-card-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 1.25rem; }
 .calc-card-heading h2 { margin: .25rem 0 0; font-size: 1.25rem; letter-spacing: -.02em; }
+.optional-label { display: inline-block; margin-left: .35rem; border-radius: 999px; padding: .25rem .5rem; background: var(--yellow-soft); color: #76530a; font-family: var(--font-sans); font-size: .6rem; font-weight: 800; letter-spacing: .02em; vertical-align: middle; }
 .calc-card-heading p { margin: .25rem 0 0; color: var(--muted); font-size: .78rem; }
 .step-label { color: var(--primary); font-size: .68rem; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
 .form-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .8rem; }
