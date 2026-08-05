@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 require __DIR__ . '/includes/app.php';
 
+header('Location: kalkulator.php');
+exit;
+
 $answers = $_SESSION['hpp_answers'] ?? [];
 $requiredSteps = hpp_steps($answers);
 

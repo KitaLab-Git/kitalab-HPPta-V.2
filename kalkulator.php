@@ -16,7 +16,7 @@ $requestedMode = 'easy';
     <title>Kalkulator HPP - HPPta</title>
     <link rel="icon" href="assets/images/kitalab-icon.svg?v=20260804" type="image/svg+xml">
     <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/calculator.css?v=20260804-3">
+    <link rel="stylesheet" href="assets/css/calculator.css?v=20260805-1">
 </head>
 <body class="calculator-page" data-initial-mode="<?= hpp_e($requestedMode) ?>">
     <a class="skip-link" href="#calculator-main">Lewati ke kalkulator</a>
@@ -43,8 +43,18 @@ $requestedMode = 'easy';
                 </div>
 
                 <section class="calc-card">
+                    <div class="calc-card-heading">
+                        <div><span class="step-label">01 · Produk</span><h2>Informasi produksi</h2><p>Masukkan produk dan jumlah yang dihasilkan dari satu resep.</p></div>
+                    </div>
+                    <div class="form-grid product-grid">
+                        <label class="calc-field"><span>Nama produk</span><input id="product-name" type="text" maxlength="80" placeholder="Contoh: Kopi susu aren"></label>
+                        <label class="calc-field"><span>Jumlah jadi</span><div class="input-suffix"><input id="batch-yield" type="number" min="0.01" step="any" value="1"><span>produk</span></div></label>
+                    </div>
+                </section>
+
+                <section class="calc-card">
                     <div class="calc-card-heading ingredient-heading">
-                        <div><span class="step-label">Resep</span><h2>Bahan baku</h2><p>Tuliskan harga beli dan jumlah yang dipakai dalam resep.</p></div>
+                        <div><span class="step-label">02 · Resep</span><h2>Bahan baku</h2><p>Tuliskan harga beli dan jumlah yang dipakai dalam resep.</p></div>
                         <button class="button button-secondary" id="add-ingredient" type="button">+ Tambah bahan</button>
                     </div>
                     <div id="ingredient-list" class="ingredient-list"></div>
@@ -55,13 +65,13 @@ $requestedMode = 'easy';
 
             <aside class="summary-column" aria-label="Ringkasan perhitungan">
                 <div class="summary-card">
-                    <span class="summary-label">Total HPP resep</span>
+                    <span class="summary-label">HPP per produk</span>
                     <strong class="summary-value" id="hpp-per-unit">Rp 0</strong>
                     <div class="summary-breakdown">
                         <div><span>Total bahan</span><strong id="total-ingredients">Rp 0</strong></div>
                         <div class="summary-total"><span>Total resep</span><strong id="total-batch">Rp 0</strong></div>
                     </div>
-                    <p class="summary-help" id="summary-help">Isi harga pembelian dan pemakaian bahan untuk melihat total HPP resep.</p>
+                    <p class="summary-help" id="summary-help">Isi produk, jumlah jadi, dan resep untuk melihat HPP per produk.</p>
                 </div>
                 <div class="data-note"><strong>Data tersimpan di perangkat ini</strong><p>Login belum diaktifkan. Jangan hapus data browser jika ingin mempertahankan perhitungan.</p></div>
             </aside>
@@ -81,6 +91,6 @@ $requestedMode = 'easy';
     </template>
 
     <script src="assets/js/hpp-engine.js?v=20260804-1"></script>
-    <script src="assets/js/calculator.js?v=20260804-2"></script>
+    <script src="assets/js/calculator.js?v=20260805-1"></script>
 </body>
 </html>

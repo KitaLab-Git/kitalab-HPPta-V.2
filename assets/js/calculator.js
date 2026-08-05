@@ -27,12 +27,22 @@
   let state = defaultState();
   try {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
-    if (saved && Array.isArray(saved.ingredients)) state.ingredients = saved.ingredients;
+    if (saved) {
+      if (Array.isArray(saved.ingredients)) state.ingredients = saved.ingredients;
+      if (saved.product) state.product = { ...state.product, ...saved.product };
+    }
   } catch (_) {}
 
   const list = byId("ingredient-list");
   const template = byId("ingredient-template");
   const empty = byId("empty-ingredients");
+  const productName = byId("product-name");
+  const batchYield = byId("batch-yield");
+
+  function syncProduct() {
+    productName.value = state.product.name || "";
+    batchYield.value = state.product.batchYield > 0 ? state.product.batchYield : "";
+  }
 
   function save() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
@@ -51,10 +61,10 @@
     });
     byId("total-ingredients").textContent = rupiah(result.ingredients);
     byId("total-batch").textContent = rupiah(result.batch);
-    byId("hpp-per-unit").textContent = rupiah(result.batch);
-    byId("summary-help").textContent = result.batch
-      ? "Total biaya seluruh bahan yang digunakan dalam resep."
-      : "Isi harga pembelian dan pemakaian bahan untuk melihat total HPP resep.";
+    byId("hpp-per-unit").textContent = rupiah(result.perUnit);
+    byId("summary-help").textContent = result.perUnit
+      ? `Total resep ${rupiah(result.batch)} dibagi ${state.product.batchYield} produk${state.product.name ? ` ${state.product.name}` : ""}.`
+      : "Isi produk, jumlah jadi, dan resep untuk melihat HPP per produk.";
   }
 
   function renderIngredients() {
@@ -104,15 +114,27 @@
     renderIngredients();
     calculate();
   });
+  productName.addEventListener("input", () => {
+    state.product.name = productName.value;
+    save();
+    calculate();
+  });
+  batchYield.addEventListener("input", () => {
+    state.product.batchYield = Number(batchYield.value) || 0;
+    save();
+    calculate();
+  });
   byId("reset-calculator").addEventListener("click", () => {
     if (!confirm("Hapus seluruh data resep dan mulai ulang?")) return;
     state = defaultState();
     save();
+    syncProduct();
     renderIngredients();
     calculate();
   });
 
   document.body.dataset.mode = "easy";
+  syncProduct();
   renderIngredients();
   calculate();
   save();

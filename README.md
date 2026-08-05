@@ -1,15 +1,14 @@
 # HPPta V2
 
-HPPta V2 adalah kalkulator Harga Pokok Produksi dari KitaLab. Pada tahap ini, semua level pengguna memakai satu mode kalkulator berbasis resep.
+HPPta V2 adalah kalkulator Harga Pokok Produksi dari KitaLab. Pada tahap pengembangan ini, pengguna langsung memakai satu kalkulator tanpa login dan tanpa klasifikasi.
 
 ## Cakupan saat ini
 
 - Landing page pengenalan HPPta.
-- CTA utama **Mulai Hitung HPP**.
-- Wizard klasifikasi satu pertanyaan per halaman.
-- Lima klasifikasi level pengguna berdasarkan flow produk.
-- Halaman hasil klasifikasi pengguna.
+- CTA utama **Coba Kalkulator** langsung menuju kalkulator.
+- Form dan hasil klasifikasi dinonaktifkan sementara.
 - Satu mode kalkulator HPP berbasis resep.
+- Section Produk untuk nama produk dan jumlah jadi.
 - Section Resep untuk menghitung biaya bahan.
 - Penyimpanan sementara menggunakan browser perangkat.
 - Tanpa login, register, dan database pada tahap pengembangan ini.
@@ -48,12 +47,13 @@ public_html/
 
 Pastikan ekstensi PHP `session` aktif. Hostinger mengaktifkannya secara default.
 
-## Logika klasifikasi
+## Alur pengembangan saat ini
 
-Klasifikasi tetap menentukan level pemahaman awal pengguna. Level tersebut tidak mengubah kalkulator: seluruh pengguna diarahkan ke satu mode dan menggunakan Section Resep yang sama.
+Pengguna menekan **Coba Kalkulator** dan langsung masuk ke kalkulator. URL klasifikasi dan hasil klasifikasi juga dialihkan ke kalkulator.
 
 ## Catatan kalkulator
 
 - Total HPP resep berasal dari biaya seluruh bahan yang digunakan.
+- HPP per produk adalah total HPP resep dibagi jumlah jadi.
 - Biaya bahan dihitung dari harga dan isi pembelian terhadap jumlah pemakaian.
 - Data sementara disimpan di browser perangkat pengguna.

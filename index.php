@@ -32,7 +32,7 @@ if (isset($_GET['reset'])) {
                 <a href="#cara-kerja">Cara kerja</a>
                 <a href="#untuk-siapa">Untuk siapa</a>
             </nav>
-            <a class="button button-small button-primary" href="klasifikasi.php?restart=1">Mulai Hitung HPP</a>
+            <a class="button button-small button-primary" href="kalkulator.php">Coba Kalkulator</a>
         </div>
     </header>
 
@@ -42,9 +42,9 @@ if (isset($_GET['reset'])) {
                 <div class="hero-copy">
                     <span class="eyebrow">Kalkulator HPP untuk UMKM Indonesia</span>
                     <h1>Pahami biaya produkmu dengan cara yang <em>lebih ringan.</em></h1>
-                    <p>HPPta membantumu menemukan cara menghitung Harga Pokok Produksi yang sesuai dengan pengalaman, kesiapan resep, dan kebiasaan usahamu.</p>
+                    <p>HPPta membantumu menghitung Harga Pokok Produksi dari bahan yang digunakan dalam satu kali proses produksi.</p>
                     <div class="hero-actions">
-                        <a class="button button-primary button-large" href="klasifikasi.php?restart=1">Mulai Hitung HPP <span aria-hidden="true">→</span></a>
+                        <a class="button button-primary button-large" href="kalkulator.php">Coba Kalkulator <span aria-hidden="true">→</span></a>
                         <a class="button button-secondary button-large" href="#cara-kerja">Lihat cara kerja</a>
                     </div>
                     <div class="trust-row" aria-label="Keunggulan HPPta">
@@ -59,20 +59,20 @@ if (isset($_GET['reset'])) {
                     <div class="preview-card">
                         <div class="preview-top">
                             <span class="preview-icon">H</span>
-                            <div><strong>Pengalaman yang sesuai</strong><small>Mulai dari tingkat pemahamanmu</small></div>
-                            <span class="status-pill">Mudah</span>
+                            <div><strong>Perhitungan produk</strong><small>Mulai dari produk dan resepmu</small></div>
+                            <span class="status-pill">Resep</span>
                         </div>
                         <div class="preview-question">
-                            <small>Contoh pertanyaan</small>
-                            <strong>Bagaimana takaran resepmu?</strong>
-                            <div class="mini-option active"><span></span> Gram atau mililiter</div>
-                            <div class="mini-option"><span></span> Sendok, gelas, atau butir</div>
-                            <div class="mini-option"><span></span> Belum tahu pasti</div>
+                            <small>Informasi produksi</small>
+                            <strong>Apa produk yang ingin dihitung?</strong>
+                            <div class="mini-option active"><span></span> Tulis nama produk</div>
+                            <div class="mini-option"><span></span> Masukkan jumlah jadi</div>
+                            <div class="mini-option"><span></span> Tambahkan bahan resep</div>
                         </div>
-                        <div class="preview-footer"><span>Mode dapat diubah kapan saja</span><b>1 / 5</b></div>
+                        <div class="preview-footer"><span>Langsung hitung tanpa klasifikasi</span><b>1 mode</b></div>
                     </div>
-                    <div class="floating-note note-one"><span>✓</span><div><strong>Satu sistem</strong><small>Beragam cara penggunaan</small></div></div>
-                    <div class="floating-note note-two"><span>↗</span><div><strong>Lebih relevan</strong><small>Fitur sesuai kebutuhan</small></div></div>
+                    <div class="floating-note note-one"><span>✓</span><div><strong>Satu kalkulator</strong><small>Langsung dapat digunakan</small></div></div>
+                    <div class="floating-note note-two"><span>↗</span><div><strong>Lebih sederhana</strong><small>Produk, resep, lalu hasil</small></div></div>
                 </div>
             </div>
         </section>
@@ -88,11 +88,11 @@ if (isset($_GET['reset'])) {
             <div class="container intro-grid">
                 <div>
                     <span class="eyebrow eyebrow-yellow">Kenapa HPPta?</span>
-                    <h2>Satu kalkulator, dengan pengalaman yang mengikuti <em>cara belajarmu.</em></h2>
+                    <h2>Satu kalkulator untuk mulai memahami <em>biaya produkmu.</em></h2>
                 </div>
                 <div class="intro-copy">
-                    <p>Setiap pelaku usaha memiliki tingkat pemahaman dan cara mencatat yang berbeda. Ada yang sudah terbiasa menghitung sampai rinci, ada juga yang baru mengenal HPP.</p>
-                    <p>HPPta menggunakan klasifikasi singkat untuk merekomendasikan mode awal. Rekomendasi ini tidak permanen dan nantinya dapat diganti melalui pengaturan.</p>
+                    <p>Setiap pelaku usaha dapat memulai dari informasi paling dasar: produk yang dibuat dan bahan yang digunakan.</p>
+                    <p>Dalam masa pengembangan ini, HPPta menggunakan satu kalkulator yang sama untuk seluruh pengguna tanpa form klasifikasi.</p>
                 </div>
             </div>
         </section>
@@ -102,12 +102,12 @@ if (isset($_GET['reset'])) {
                 <div class="section-heading">
                     <span class="eyebrow">Cara kerja</span>
                     <h2>Mulai menghitung dalam <em>tiga langkah.</em></h2>
-                    <p>Tidak perlu memahami semua istilah di awal. HPPta akan membantu menentukan titik mulai yang sesuai.</p>
+                    <p>Tidak perlu melalui klasifikasi. Masukkan informasi produksi dan resep untuk melihat HPP produkmu.</p>
                 </div>
                 <div class="steps-grid">
-                    <article class="feature-card"><span class="feature-number">01</span><div class="feature-icon">?</div><h3>Jawab pertanyaan singkat</h3><p>Ceritakan kondisi produk, resep, dan pengalaman menghitungmu.</p></article>
-                    <article class="feature-card featured"><span class="feature-number">02</span><div class="feature-icon">◎</div><h3>Dapatkan rekomendasi mode</h3><p>HPPta menentukan pengalaman awal tanpa mengunci pilihanmu.</p></article>
-                    <article class="feature-card"><span class="feature-number">03</span><div class="feature-icon">∑</div><h3>Hitung dengan lebih nyaman</h3><p>Kelak, fitur dan detail akan tampil sesuai mode yang kamu gunakan.</p></article>
+                    <article class="feature-card"><span class="feature-number">01</span><div class="feature-icon">P</div><h3>Isi informasi produk</h3><p>Tuliskan nama produk dan jumlah produk yang dihasilkan.</p></article>
+                    <article class="feature-card featured"><span class="feature-number">02</span><div class="feature-icon">R</div><h3>Masukkan resep</h3><p>Catat harga pembelian dan jumlah setiap bahan yang digunakan.</p></article>
+                    <article class="feature-card"><span class="feature-number">03</span><div class="feature-icon">∑</div><h3>Lihat hasil HPP</h3><p>HPPta membagi total biaya resep dengan jumlah produk yang dihasilkan.</p></article>
                 </div>
             </div>
         </section>
@@ -117,8 +117,8 @@ if (isset($_GET['reset'])) {
                 <div>
                     <span class="eyebrow eyebrow-light">Dibangun untuk bertumbuh bersama</span>
                     <h2>Baru mulai atau sudah berpengalaman, <em>keduanya tetap bisa.</em></h2>
-                    <p>Mode awal membantumu memulai tanpa kebingungan. Saat pemahaman berkembang, cara penggunaan dapat ikut berubah tanpa kehilangan data.</p>
-                    <a class="button button-yellow button-large" href="klasifikasi.php?restart=1">Temukan mode awalmu <span aria-hidden="true">→</span></a>
+                    <p>Satu kalkulator digunakan oleh seluruh pengguna selama masa pengembangan, tanpa login dan tanpa klasifikasi.</p>
+                    <a class="button button-yellow button-large" href="kalkulator.php">Coba Kalkulator <span aria-hidden="true">→</span></a>
                 </div>
                 <ul>
                     <li><span>01</span><div><strong>Usaha yang sudah berjalan</strong><small>Untuk pengguna baru maupun berpengalaman.</small></div></li>
@@ -133,8 +133,8 @@ if (isset($_GET['reset'])) {
                 <img src="assets/images/kitalab-icon.svg" alt="" width="52" height="52">
                 <span class="eyebrow">Siap mengenal HPP produkmu?</span>
                 <h2>Mulai dari yang kamu pahami <em>hari ini.</em></h2>
-                <p>Jawab beberapa pertanyaan dan lihat mode HPPta yang direkomendasikan untukmu.</p>
-                <a class="button button-primary button-large" href="klasifikasi.php?restart=1">Mulai Hitung HPP <span aria-hidden="true">→</span></a>
+                <p>Masukkan produk dan resep untuk mulai menghitung tanpa klasifikasi.</p>
+                <a class="button button-primary button-large" href="kalkulator.php">Coba Kalkulator <span aria-hidden="true">→</span></a>
             </div>
         </section>
     </main>
