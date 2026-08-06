@@ -179,6 +179,9 @@
     const revenueMarginInvalid = state.pricing.type === "revenue" && margin >= 100;
     const sellingPrice = HppEngine.sellingPrice(result.perUnit, margin, state.pricing.type);
     byId("selling-price").textContent = revenueMarginInvalid ? "Tidak dapat dihitung" : rupiah(sellingPrice);
+    byId("selling-price-note").textContent = revenueMarginInvalid
+      ? "Gunakan nilai di bawah 100% atau pilih Margin profit dari HPP."
+      : `Dari HPP ${rupiah(result.perUnit)} dengan ${margin.toLocaleString("id-ID")}% ${state.pricing.type === "revenue" ? "margin harga jual" : "margin profit"}.`;
     byId("margin-explanation").textContent = state.pricing.type === "revenue"
       ? "Keuntungan dihitung sebagai bagian dari harga jual akhir. Nilainya harus di bawah 100%."
       : "Keuntungan dihitung sebagai persentase tambahan dari HPP.";
@@ -292,6 +295,10 @@
   marginType.addEventListener("change", () => {
     state.pricing.type = marginType.value;
     save(); calculate();
+  });
+  const summaryCard = document.querySelector(".summary-card");
+  summaryCard.addEventListener("toggle", () => {
+    summaryCard.querySelector(".summary-toggle-text").textContent = summaryCard.open ? "Tutup rincian" : "Lihat rincian";
   });
   byId("reset-calculator").addEventListener("click", () => {
     if (!confirm("Hapus seluruh data perhitungan dan mulai ulang?")) return;

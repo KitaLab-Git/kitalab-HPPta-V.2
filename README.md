@@ -13,6 +13,8 @@ HPPta V2 adalah kalkulator Harga Pokok Produksi dari KitaLab. Pada tahap pengemb
 - Section Kemasan opsional dengan biaya material dan biaya packing pada setiap item kemasan.
 - Section Biaya Operasional opsional dengan tenaga kerja, gas, listrik, air, dan daftar biaya lainnya.
 - Card margin harga jual di bawah ringkasan HPP dengan pilihan Margin Profit sebagai default dan Margin dari Harga Jual sebagai alternatif.
+- Ringkasan HPP menampilkan nilai per produk secara ringkas; rincian bahan, kemasan, operasional, dan total produksi dibuka saat pengguna menekan card.
+- Rekomendasi harga jual menjadi hasil utama pada card margin dengan hierarki visual yang lebih kuat daripada nilai HPP.
 - Penyimpanan sementara menggunakan browser perangkat.
 - Tanpa login, register, dan database pada tahap pengembangan ini.
 

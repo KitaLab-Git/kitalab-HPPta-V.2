@@ -16,7 +16,7 @@ $requestedMode = 'easy';
     <title>Kalkulator HPP - HPPta</title>
     <link rel="icon" href="assets/images/kitalab-icon.svg?v=20260804" type="image/svg+xml">
     <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/calculator.css?v=20260805-5">
+    <link rel="stylesheet" href="assets/css/calculator.css?v=20260806-1">
 </head>
 <body class="calculator-page" data-initial-mode="<?= hpp_e($requestedMode) ?>">
     <a class="skip-link" href="#calculator-main">Lewati ke kalkulator</a>
@@ -137,22 +137,31 @@ $requestedMode = 'easy';
             </section>
 
             <aside class="summary-column" aria-label="Ringkasan perhitungan">
-                <div class="summary-card">
-                    <span class="summary-label">HPP per produk</span>
-                    <strong class="summary-value" id="hpp-per-unit">Rp 0</strong>
-                    <div class="summary-breakdown">
-                        <div><span>Total bahan</span><strong id="total-ingredients">Rp 0</strong></div>
-                        <div><span>Total kemasan</span><strong id="total-packaging">Rp 0</strong></div>
-                        <div><span>Biaya operasional</span><strong id="total-operations">Rp 0</strong></div>
-                        <div class="summary-total"><span>Total produksi</span><strong id="total-batch">Rp 0</strong></div>
+                <details class="summary-card">
+                    <summary class="summary-overview">
+                        <span><span class="summary-label">HPP per produk</span><strong class="summary-value" id="hpp-per-unit">Rp 0</strong></span>
+                        <span class="summary-toggle"><span class="summary-toggle-text">Lihat rincian</span><i aria-hidden="true"></i></span>
+                    </summary>
+                    <div class="summary-details">
+                        <div class="summary-breakdown">
+                            <div><span>Total bahan</span><strong id="total-ingredients">Rp 0</strong></div>
+                            <div><span>Total kemasan</span><strong id="total-packaging">Rp 0</strong></div>
+                            <div><span>Biaya operasional</span><strong id="total-operations">Rp 0</strong></div>
+                            <div class="summary-total"><span>Total produksi</span><strong id="total-batch">Rp 0</strong></div>
+                        </div>
+                        <p class="summary-help" id="summary-help">Isi produk, jumlah jadi, dan resep untuk melihat HPP per produk.</p>
                     </div>
-                    <p class="summary-help" id="summary-help">Isi produk, jumlah jadi, dan resep untuk melihat HPP per produk.</p>
-                </div>
+                </details>
                 <div class="margin-card">
                     <div class="margin-decoration" aria-hidden="true">%</div>
                     <div class="margin-title-row">
                         <div><span class="margin-eyebrow">Tentukan harga jual</span><h2>Margin keuntungan</h2></div>
                         <span class="margin-value-badge" id="margin-value-label">0%</span>
+                    </div>
+                    <div class="selling-price">
+                        <span>Rekomendasi harga jual</span>
+                        <strong id="selling-price">Rp 0</strong>
+                        <small id="selling-price-note">Harga jual berdasarkan HPP dan margin pilihanmu.</small>
                     </div>
                     <label class="margin-method"><span>Jenis margin</span><select id="margin-type"><option value="profit">Margin profit dari HPP</option><option value="revenue">Margin dari harga jual</option></select></label>
                     <p class="margin-explanation" id="margin-explanation">Keuntungan dihitung sebagai persentase tambahan dari HPP.</p>
@@ -165,7 +174,6 @@ $requestedMode = 'easy';
                         </div>
                     </div>
                     <p class="margin-warning" id="margin-warning" hidden></p>
-                    <div class="selling-price"><span>Rekomendasi harga jual</span><strong id="selling-price">Rp 0</strong></div>
                 </div>
                 <div class="data-note"><strong>Data tersimpan di perangkat ini</strong><p>Login belum diaktifkan. Jangan hapus data browser jika ingin mempertahankan perhitungan.</p></div>
             </aside>
@@ -206,6 +214,6 @@ $requestedMode = 'easy';
     </template>
 
     <script src="assets/js/hpp-engine.js?v=20260805-6"></script>
-    <script src="assets/js/calculator.js?v=20260805-7"></script>
+    <script src="assets/js/calculator.js?v=20260806-1"></script>
 </body>
 </html>
